@@ -3,7 +3,7 @@
 import { useState, useMemo, useCallback } from "react";
 import { geoPath, geoMercator } from "d3-geo";
 import { stateData, type StateData } from "@/data/impressions";
-import australiaGeo from "@/data/australia.geojson";
+import australiaGeo from "@/data/australiaGeo";
 import type { Feature, FeatureCollection, Geometry } from "geojson";
 
 // Name → abbreviation lookup
