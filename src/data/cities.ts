@@ -6,6 +6,8 @@ export interface CityData {
   googleAds: number;
   dv360: number;
   total: number;
+  googleAdsClicks: number;
+  totalClicks: number;
 }
 
 export const cityData: CityData[] = [
@@ -16,7 +18,9 @@ export const cityData: CityData[] = [
     "lng": 151.21,
     "googleAds": 620005,
     "dv360": 125673,
-    "total": 745678
+    "total": 745678,
+    "googleAdsClicks": 7752,
+    "totalClicks": 7752
   },
   {
     "city": "Brisbane",
@@ -25,7 +29,9 @@ export const cityData: CityData[] = [
     "lng": 153.03,
     "googleAds": 627673,
     "dv360": 44017,
-    "total": 671690
+    "total": 671690,
+    "googleAdsClicks": 7002,
+    "totalClicks": 7002
   },
   {
     "city": "Melbourne",
@@ -34,7 +40,9 @@ export const cityData: CityData[] = [
     "lng": 144.96,
     "googleAds": 349340,
     "dv360": 79273,
-    "total": 428613
+    "total": 428613,
+    "googleAdsClicks": 4901,
+    "totalClicks": 4901
   },
   {
     "city": "Adelaide",
@@ -43,7 +51,9 @@ export const cityData: CityData[] = [
     "lng": 138.6,
     "googleAds": 273811,
     "dv360": 17344,
-    "total": 291155
+    "total": 291155,
+    "googleAdsClicks": 3234,
+    "totalClicks": 3234
   },
   {
     "city": "Perth",
@@ -52,7 +62,9 @@ export const cityData: CityData[] = [
     "lng": 115.86,
     "googleAds": 165879,
     "dv360": 30830,
-    "total": 196709
+    "total": 196709,
+    "googleAdsClicks": 2202,
+    "totalClicks": 2202
   },
   {
     "city": "Truganina",
@@ -61,7 +73,9 @@ export const cityData: CityData[] = [
     "lng": 144.74,
     "googleAds": 78308,
     "dv360": 0,
-    "total": 78308
+    "total": 78308,
+    "googleAdsClicks": 1112,
+    "totalClicks": 1112
   },
   {
     "city": "Cocoroc",
@@ -70,16 +84,20 @@ export const cityData: CityData[] = [
     "lng": 144.6,
     "googleAds": 57278,
     "dv360": 0,
-    "total": 57278
+    "total": 57278,
+    "googleAdsClicks": 632,
+    "totalClicks": 632
   },
   {
     "city": "Donnybrook",
-    "state": "Western Australia",
+    "state": "Victoria",
     "lat": -37.53,
     "lng": 145.17,
     "googleAds": 42373,
     "dv360": 5,
-    "total": 42378
+    "total": 42378,
+    "googleAdsClicks": 653,
+    "totalClicks": 653
   },
   {
     "city": "Moorebank",
@@ -88,7 +106,9 @@ export const cityData: CityData[] = [
     "lng": 150.93,
     "googleAds": 41293,
     "dv360": 0,
-    "total": 41293
+    "total": 41293,
+    "googleAdsClicks": 533,
+    "totalClicks": 533
   },
   {
     "city": "Devon Meadows",
@@ -97,7 +117,9 @@ export const cityData: CityData[] = [
     "lng": 145.3,
     "googleAds": 38468,
     "dv360": 0,
-    "total": 38468
+    "total": 38468,
+    "googleAdsClicks": 536,
+    "totalClicks": 536
   },
   {
     "city": "Wungong",
@@ -106,7 +128,9 @@ export const cityData: CityData[] = [
     "lng": 116.01,
     "googleAds": 35475,
     "dv360": 0,
-    "total": 35475
+    "total": 35475,
+    "googleAdsClicks": 445,
+    "totalClicks": 445
   },
   {
     "city": "Appin",
@@ -115,7 +139,9 @@ export const cityData: CityData[] = [
     "lng": 150.79,
     "googleAds": 33354,
     "dv360": 0,
-    "total": 33354
+    "total": 33354,
+    "googleAdsClicks": 444,
+    "totalClicks": 444
   },
   {
     "city": "Glenvale",
@@ -124,7 +150,9 @@ export const cityData: CityData[] = [
     "lng": 151.9,
     "googleAds": 30937,
     "dv360": 0,
-    "total": 30937
+    "total": 30937,
+    "googleAdsClicks": 464,
+    "totalClicks": 464
   },
   {
     "city": "Bellmere",
@@ -133,7 +161,9 @@ export const cityData: CityData[] = [
     "lng": 152.89,
     "googleAds": 29634,
     "dv360": 0,
-    "total": 29634
+    "total": 29634,
+    "googleAdsClicks": 351,
+    "totalClicks": 351
   },
   {
     "city": "Madora Bay",
@@ -142,7 +172,9 @@ export const cityData: CityData[] = [
     "lng": 115.75,
     "googleAds": 29375,
     "dv360": 0,
-    "total": 29375
+    "total": 29375,
+    "googleAdsClicks": 324,
+    "totalClicks": 324
   },
   {
     "city": "Beeliar",
@@ -151,7 +183,9 @@ export const cityData: CityData[] = [
     "lng": 115.81,
     "googleAds": 29319,
     "dv360": 0,
-    "total": 29319
+    "total": 29319,
+    "googleAdsClicks": 352,
+    "totalClicks": 352
   },
   {
     "city": "Karalee",
@@ -160,7 +194,9 @@ export const cityData: CityData[] = [
     "lng": 152.78,
     "googleAds": 28937,
     "dv360": 0,
-    "total": 28937
+    "total": 28937,
+    "googleAdsClicks": 370,
+    "totalClicks": 370
   },
   {
     "city": "Carole Park",
@@ -169,7 +205,9 @@ export const cityData: CityData[] = [
     "lng": 152.95,
     "googleAds": 28431,
     "dv360": 0,
-    "total": 28431
+    "total": 28431,
+    "googleAdsClicks": 313,
+    "totalClicks": 313
   },
   {
     "city": "Vineyard",
@@ -178,7 +216,9 @@ export const cityData: CityData[] = [
     "lng": 150.85,
     "googleAds": 27732,
     "dv360": 631,
-    "total": 28363
+    "total": 28363,
+    "googleAdsClicks": 386,
+    "totalClicks": 386
   },
   {
     "city": "Pemulwuy",
@@ -187,7 +227,9 @@ export const cityData: CityData[] = [
     "lng": 150.93,
     "googleAds": 28277,
     "dv360": 0,
-    "total": 28277
+    "total": 28277,
+    "googleAdsClicks": 345,
+    "totalClicks": 345
   },
   {
     "city": "Madeley",
@@ -196,7 +238,9 @@ export const cityData: CityData[] = [
     "lng": 115.83,
     "googleAds": 27204,
     "dv360": 0,
-    "total": 27204
+    "total": 27204,
+    "googleAdsClicks": 323,
+    "totalClicks": 323
   },
   {
     "city": "Cranbrook",
@@ -205,7 +249,9 @@ export const cityData: CityData[] = [
     "lng": 146.77,
     "googleAds": 26094,
     "dv360": 0,
-    "total": 26094
+    "total": 26094,
+    "googleAdsClicks": 259,
+    "totalClicks": 259
   },
   {
     "city": "Bahrs Scrub",
@@ -214,7 +260,9 @@ export const cityData: CityData[] = [
     "lng": 153.17,
     "googleAds": 25918,
     "dv360": 0,
-    "total": 25918
+    "total": 25918,
+    "googleAdsClicks": 340,
+    "totalClicks": 340
   },
   {
     "city": "Cawdor",
@@ -223,7 +271,9 @@ export const cityData: CityData[] = [
     "lng": 150.66,
     "googleAds": 25293,
     "dv360": 0,
-    "total": 25293
+    "total": 25293,
+    "googleAdsClicks": 288,
+    "totalClicks": 288
   },
   {
     "city": "Canterbury-Bankstown Council",
@@ -232,7 +282,9 @@ export const cityData: CityData[] = [
     "lng": 151.06,
     "googleAds": 24128,
     "dv360": 0,
-    "total": 24128
+    "total": 24128,
+    "googleAdsClicks": 272,
+    "totalClicks": 272
   },
   {
     "city": "Murrumba Downs",
@@ -241,7 +293,9 @@ export const cityData: CityData[] = [
     "lng": 152.96,
     "googleAds": 23448,
     "dv360": 0,
-    "total": 23448
+    "total": 23448,
+    "googleAdsClicks": 237,
+    "totalClicks": 237
   },
   {
     "city": "Rouse Hill",
@@ -250,7 +304,9 @@ export const cityData: CityData[] = [
     "lng": 150.91,
     "googleAds": 23110,
     "dv360": 0,
-    "total": 23110
+    "total": 23110,
+    "googleAdsClicks": 248,
+    "totalClicks": 248
   },
   {
     "city": "North Ipswich",
@@ -259,7 +315,9 @@ export const cityData: CityData[] = [
     "lng": 152.76,
     "googleAds": 22482,
     "dv360": 0,
-    "total": 22482
+    "total": 22482,
+    "googleAdsClicks": 237,
+    "totalClicks": 237
   },
   {
     "city": "Cardinia",
@@ -268,7 +326,9 @@ export const cityData: CityData[] = [
     "lng": 145.42,
     "googleAds": 22231,
     "dv360": 0,
-    "total": 22231
+    "total": 22231,
+    "googleAdsClicks": 263,
+    "totalClicks": 263
   },
   {
     "city": "Willetton",
@@ -277,7 +337,9 @@ export const cityData: CityData[] = [
     "lng": 115.87,
     "googleAds": 22014,
     "dv360": 0,
-    "total": 22014
+    "total": 22014,
+    "googleAdsClicks": 227,
+    "totalClicks": 227
   },
   {
     "city": "Beckenham",
@@ -286,7 +348,9 @@ export const cityData: CityData[] = [
     "lng": 115.96,
     "googleAds": 21344,
     "dv360": 0,
-    "total": 21344
+    "total": 21344,
+    "googleAdsClicks": 257,
+    "totalClicks": 257
   },
   {
     "city": "Baulkham Hills",
@@ -295,7 +359,9 @@ export const cityData: CityData[] = [
     "lng": 150.99,
     "googleAds": 20989,
     "dv360": 0,
-    "total": 20989
+    "total": 20989,
+    "googleAdsClicks": 182,
+    "totalClicks": 182
   },
   {
     "city": "Spearwood",
@@ -304,7 +370,9 @@ export const cityData: CityData[] = [
     "lng": 115.78,
     "googleAds": 20780,
     "dv360": 0,
-    "total": 20780
+    "total": 20780,
+    "googleAdsClicks": 259,
+    "totalClicks": 259
   },
   {
     "city": "Glen Waverley",
@@ -313,7 +381,9 @@ export const cityData: CityData[] = [
     "lng": 145.16,
     "googleAds": 20636,
     "dv360": 0,
-    "total": 20636
+    "total": 20636,
+    "googleAdsClicks": 164,
+    "totalClicks": 164
   },
   {
     "city": "Canberra",
@@ -322,7 +392,9 @@ export const cityData: CityData[] = [
     "lng": 149.13,
     "googleAds": 20535,
     "dv360": 0,
-    "total": 20535
+    "total": 20535,
+    "googleAdsClicks": 217,
+    "totalClicks": 217
   },
   {
     "city": "One Tree Hill",
@@ -331,16 +403,9 @@ export const cityData: CityData[] = [
     "lng": 138.75,
     "googleAds": 20468,
     "dv360": 0,
-    "total": 20468
-  },
-  {
-    "city": "City of Stirling",
-    "state": "Western Australia",
-    "lat": -31.87,
-    "lng": 115.84,
-    "googleAds": 20328,
-    "dv360": 0,
-    "total": 20328
+    "total": 20468,
+    "googleAdsClicks": 255,
+    "totalClicks": 255
   },
   {
     "city": "City of Canada Bay Council",
@@ -349,7 +414,20 @@ export const cityData: CityData[] = [
     "lng": 151.1,
     "googleAds": 20328,
     "dv360": 0,
-    "total": 20328
+    "total": 20328,
+    "googleAdsClicks": 193,
+    "totalClicks": 193
+  },
+  {
+    "city": "City of Stirling",
+    "state": "Western Australia",
+    "lat": -31.87,
+    "lng": 115.84,
+    "googleAds": 20328,
+    "dv360": 0,
+    "total": 20328,
+    "googleAdsClicks": 283,
+    "totalClicks": 283
   },
   {
     "city": "Narre Warren South",
@@ -358,7 +436,9 @@ export const cityData: CityData[] = [
     "lng": 145.3,
     "googleAds": 20199,
     "dv360": 0,
-    "total": 20199
+    "total": 20199,
+    "googleAdsClicks": 215,
+    "totalClicks": 215
   },
   {
     "city": "Dandenong",
@@ -367,7 +447,9 @@ export const cityData: CityData[] = [
     "lng": 145.21,
     "googleAds": 20037,
     "dv360": 0,
-    "total": 20037
+    "total": 20037,
+    "googleAdsClicks": 343,
+    "totalClicks": 343
   },
   {
     "city": "Blacktown",
@@ -376,7 +458,9 @@ export const cityData: CityData[] = [
     "lng": 150.91,
     "googleAds": 19983,
     "dv360": 0,
-    "total": 19983
+    "total": 19983,
+    "googleAdsClicks": 262,
+    "totalClicks": 262
   },
   {
     "city": "Mornington Peninsula Shire",
@@ -385,7 +469,9 @@ export const cityData: CityData[] = [
     "lng": 145.07,
     "googleAds": 19784,
     "dv360": 30,
-    "total": 19814
+    "total": 19814,
+    "googleAdsClicks": 191,
+    "totalClicks": 191
   },
   {
     "city": "Zillmere",
@@ -394,7 +480,9 @@ export const cityData: CityData[] = [
     "lng": 153.04,
     "googleAds": 19547,
     "dv360": 0,
-    "total": 19547
+    "total": 19547,
+    "googleAdsClicks": 165,
+    "totalClicks": 165
   },
   {
     "city": "Mount Druitt",
@@ -403,7 +491,9 @@ export const cityData: CityData[] = [
     "lng": 150.82,
     "googleAds": 19520,
     "dv360": 0,
-    "total": 19520
+    "total": 19520,
+    "googleAdsClicks": 266,
+    "totalClicks": 266
   },
   {
     "city": "Shanes Park",
@@ -412,7 +502,9 @@ export const cityData: CityData[] = [
     "lng": 150.78,
     "googleAds": 19271,
     "dv360": 0,
-    "total": 19271
+    "total": 19271,
+    "googleAdsClicks": 209,
+    "totalClicks": 209
   },
   {
     "city": "Inner West Council",
@@ -421,7 +513,9 @@ export const cityData: CityData[] = [
     "lng": 151.14,
     "googleAds": 19182,
     "dv360": 0,
-    "total": 19182
+    "total": 19182,
+    "googleAdsClicks": 185,
+    "totalClicks": 185
   },
   {
     "city": "Caroline Springs",
@@ -430,6 +524,8 @@ export const cityData: CityData[] = [
     "lng": 144.74,
     "googleAds": 18685,
     "dv360": 0,
-    "total": 18685
+    "total": 18685,
+    "googleAdsClicks": 222,
+    "totalClicks": 222
   }
 ];

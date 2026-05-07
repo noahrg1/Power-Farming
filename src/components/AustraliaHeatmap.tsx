@@ -1,13 +1,12 @@
 "use client";
 
 import { useState, useMemo, useCallback } from "react";
-import { geoPath, geoMercator, type GeoProjection } from "d3-geo";
-import { stateData, type StateData } from "@/data/impressions";
+import { geoPath, geoMercator } from "d3-geo";
+import { stateData, type StateData, type Metric } from "@/data/impressions";
 import { cityData, type CityData } from "@/data/cities";
 import australiaGeo from "@/data/australiaGeo";
 import type { Feature, FeatureCollection, Geometry } from "geojson";
 
-// Name → abbreviation lookup
 const nameToAbbr: Record<string, string> = {
   "New South Wales": "NSW",
   Victoria: "VIC",
@@ -19,8 +18,16 @@ const nameToAbbr: Record<string, string> = {
   "Australian Capital Territory": "ACT",
 };
 
-function getColor(total: number, maxTotal: number): string {
-  const ratio = total / maxTotal;
+function getColor(value: number, maxValue: number, metric: Metric): string {
+  const ratio = value / maxValue;
+  if (metric === "clicks") {
+    if (ratio > 0.8) return "#1e40af";
+    if (ratio > 0.6) return "#2563eb";
+    if (ratio > 0.4) return "#3b82f6";
+    if (ratio > 0.2) return "#60a5fa";
+    if (ratio > 0.05) return "#93c5fd";
+    return "#bfdbfe";
+  }
   if (ratio > 0.8) return "#15803d";
   if (ratio > 0.6) return "#16a34a";
   if (ratio > 0.4) return "#22c55e";
@@ -39,8 +46,16 @@ function formatNumberFull(n: number): string {
   return n.toLocaleString("en-AU");
 }
 
-function getDotRadius(total: number, maxTotal: number): number {
-  const ratio = total / maxTotal;
+function getStateValue(data: StateData, metric: Metric): number {
+  return metric === "impressions" ? data.total : data.clicks.total;
+}
+
+function getCityValue(data: CityData, metric: Metric): number {
+  return metric === "impressions" ? data.total : data.totalClicks;
+}
+
+function getDotRadius(value: number, maxValue: number): number {
+  const ratio = value / maxValue;
   return 3 + ratio * 14;
 }
 
@@ -52,16 +67,21 @@ type HoverTarget =
   | { type: "city"; data: CityData }
   | null;
 
-export default function AustraliaHeatmap() {
+interface Props {
+  metric: Metric;
+}
+
+export default function AustraliaHeatmap({ metric }: Props) {
   const [hovered, setHovered] = useState<HoverTarget>(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
 
-  const maxStateTotal = Math.max(
-    ...Object.values(stateData).map((s) => s.total)
+  const maxStateValue = Math.max(
+    ...Object.values(stateData).map((s) => getStateValue(s, metric))
   );
-  const maxCityTotal = Math.max(...cityData.map((c) => c.total));
+  const maxCityValue = Math.max(
+    ...cityData.map((c) => getCityValue(c, metric))
+  );
 
-  // Set up D3 projection fitted to Australia
   const { pathGenerator, centroids, projection } = useMemo(() => {
     const geo = australiaGeo as FeatureCollection;
     const proj = geoMercator().fitSize([WIDTH, HEIGHT - 60], geo);
@@ -79,7 +99,6 @@ export default function AustraliaHeatmap() {
     return { pathGenerator: pathGen, centroids: cents, projection: proj };
   }, []);
 
-  // Project city coordinates
   const projectedCities = useMemo(() => {
     return cityData
       .map((city) => {
@@ -102,13 +121,17 @@ export default function AustraliaHeatmap() {
   );
 
   const geo = australiaGeo as FeatureCollection;
-
-  const hoveredStateAbbr =
-    hovered?.type === "state" ? hovered.abbr : null;
+  const hoveredStateAbbr = hovered?.type === "state" ? hovered.abbr : null;
   const hoveredStateData: StateData | null = hoveredStateAbbr
     ? stateData[hoveredStateAbbr]
     : null;
   const hoveredCity = hovered?.type === "city" ? hovered.data : null;
+
+  const metricLabel = metric === "impressions" ? "impressions" : "clicks";
+  const colorScale =
+    metric === "impressions"
+      ? ["#bbf7d0", "#86efac", "#4ade80", "#22c55e", "#16a34a", "#15803d"]
+      : ["#bfdbfe", "#93c5fd", "#60a5fa", "#3b82f6", "#2563eb", "#1e40af"];
 
   return (
     <div className="relative">
@@ -124,6 +147,7 @@ export default function AustraliaHeatmap() {
           if (!abbr || !stateData[abbr]) return null;
 
           const data = stateData[abbr];
+          const value = getStateValue(data, metric);
           const isHovered = hoveredStateAbbr === abbr;
           const d = pathGenerator(feature as Feature<Geometry>);
           if (!d) return null;
@@ -139,7 +163,7 @@ export default function AustraliaHeatmap() {
             >
               <path
                 d={d}
-                fill={getColor(data.total, maxStateTotal)}
+                fill={getColor(value, maxStateValue, metric)}
                 stroke={isHovered ? "#ffffff" : "#0a0a0f"}
                 strokeWidth={isHovered ? 2 : 1}
                 className="transition-all duration-150"
@@ -171,7 +195,7 @@ export default function AustraliaHeatmap() {
                     opacity={0.9}
                     style={{ textShadow: "0 1px 4px rgba(0,0,0,0.8)" }}
                   >
-                    {formatNumber(data.total)}
+                    {formatNumber(value)}
                   </text>
                 </>
               )}
@@ -179,7 +203,7 @@ export default function AustraliaHeatmap() {
           );
         })}
 
-        {/* ACT label with leader line */}
+        {/* ACT label */}
         {centroids.ACT && (
           <g pointerEvents="none">
             <line
@@ -209,22 +233,21 @@ export default function AustraliaHeatmap() {
               opacity={0.9}
               style={{ textShadow: "0 1px 4px rgba(0,0,0,0.8)" }}
             >
-              {formatNumber(stateData.ACT.total)}
+              {formatNumber(getStateValue(stateData.ACT, metric))}
             </text>
           </g>
         )}
 
         {/* City dots */}
         {projectedCities.map((city) => {
-          const r = getDotRadius(city.total, maxCityTotal);
-          const isCityHovered =
-            hoveredCity?.city === city.city;
+          const value = getCityValue(city, metric);
+          if (value === 0) return null;
+          const r = getDotRadius(value, maxCityValue);
+          const isCityHovered = hoveredCity?.city === city.city;
           return (
             <g
               key={`${city.city}-${city.lat}`}
-              onMouseEnter={() =>
-                setHovered({ type: "city", data: city })
-              }
+              onMouseEnter={() => setHovered({ type: "city", data: city })}
               onMouseLeave={() => setHovered(null)}
               className="cursor-pointer"
             >
@@ -259,16 +282,9 @@ export default function AustraliaHeatmap() {
         {/* Legend */}
         <g transform={`translate(30, ${HEIGHT - 55})`}>
           <text x="0" y="0" fill="#a1a1aa" fontSize="11">
-            State fill: impression volume
+            State fill: {metricLabel} volume
           </text>
-          {[
-            "#bbf7d0",
-            "#86efac",
-            "#4ade80",
-            "#22c55e",
-            "#16a34a",
-            "#15803d",
-          ].map((color, i) => (
+          {colorScale.map((color, i) => (
             <rect
               key={color}
               x={i * 28}
@@ -282,8 +298,15 @@ export default function AustraliaHeatmap() {
         </g>
         <g transform={`translate(30, ${HEIGHT - 25})`}>
           <circle cx={6} cy={0} r={4} fill="#f97316" fillOpacity={0.7} />
-          <text x={16} y="0" fill="#a1a1aa" fontSize="11" dominantBaseline="middle">
-            City dots: sized by city impressions (Google Ads + DV360)
+          <text
+            x={16}
+            y="0"
+            fill="#a1a1aa"
+            fontSize="11"
+            dominantBaseline="middle"
+          >
+            City dots: sized by city {metricLabel} (Google Ads
+            {metric === "impressions" ? " + DV360" : ""})
           </text>
         </g>
       </svg>
@@ -303,37 +326,64 @@ export default function AustraliaHeatmap() {
             {hoveredStateData.name}
           </div>
           <div className="text-xs text-zinc-400 mb-2">
-            Total: {formatNumberFull(hoveredStateData.total)} impressions
+            Total: {formatNumberFull(getStateValue(hoveredStateData, metric))}{" "}
+            {metricLabel}
           </div>
-          <div className="space-y-1.5">
-            <div className="flex justify-between text-xs">
-              <span className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-blue-400 inline-block" />
-                Google Ads
-              </span>
-              <span className="text-zinc-300 font-medium">
-                {formatNumberFull(hoveredStateData.googleAds)}
-              </span>
+          {metric === "impressions" ? (
+            <div className="space-y-1.5">
+              <div className="flex justify-between text-xs">
+                <span className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-blue-400 inline-block" />
+                  Google Ads
+                </span>
+                <span className="text-zinc-300 font-medium">
+                  {formatNumberFull(hoveredStateData.googleAds)}
+                </span>
+              </div>
+              <div className="flex justify-between text-xs">
+                <span className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-purple-400 inline-block" />
+                  DV360
+                </span>
+                <span className="text-zinc-300 font-medium">
+                  {formatNumberFull(hoveredStateData.dv360)}
+                </span>
+              </div>
+              <div className="flex justify-between text-xs">
+                <span className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-sky-400 inline-block" />
+                  Meta
+                </span>
+                <span className="text-zinc-300 font-medium">
+                  {formatNumberFull(hoveredStateData.meta)}
+                </span>
+              </div>
             </div>
-            <div className="flex justify-between text-xs">
-              <span className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-purple-400 inline-block" />
-                DV360
-              </span>
-              <span className="text-zinc-300 font-medium">
-                {formatNumberFull(hoveredStateData.dv360)}
-              </span>
+          ) : (
+            <div className="space-y-1.5">
+              <div className="flex justify-between text-xs">
+                <span className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-blue-400 inline-block" />
+                  Google Ads
+                </span>
+                <span className="text-zinc-300 font-medium">
+                  {formatNumberFull(hoveredStateData.clicks.googleAds)}
+                </span>
+              </div>
+              <div className="flex justify-between text-xs">
+                <span className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-sky-400 inline-block" />
+                  Meta
+                </span>
+                <span className="text-zinc-300 font-medium">
+                  {formatNumberFull(hoveredStateData.clicks.meta)}
+                </span>
+              </div>
+              <div className="text-xs text-zinc-500 mt-1 italic">
+                DV360 click data not available
+              </div>
             </div>
-            <div className="flex justify-between text-xs">
-              <span className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-sky-400 inline-block" />
-                Meta
-              </span>
-              <span className="text-zinc-300 font-medium">
-                {formatNumberFull(hoveredStateData.meta)}
-              </span>
-            </div>
-          </div>
+          )}
         </div>
       )}
 
@@ -353,28 +403,44 @@ export default function AustraliaHeatmap() {
           </div>
           <div className="text-xs text-zinc-500 mb-2">{hoveredCity.state}</div>
           <div className="text-xs text-zinc-400 mb-2">
-            Total: {formatNumberFull(hoveredCity.total)} impressions
+            {metric === "impressions"
+              ? `Total: ${formatNumberFull(hoveredCity.total)} impressions`
+              : `Total: ${formatNumberFull(hoveredCity.totalClicks)} clicks`}
           </div>
-          <div className="space-y-1.5">
-            <div className="flex justify-between text-xs">
-              <span className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-blue-400 inline-block" />
-                Google Ads
-              </span>
-              <span className="text-zinc-300 font-medium">
-                {formatNumberFull(hoveredCity.googleAds)}
-              </span>
+          {metric === "impressions" ? (
+            <div className="space-y-1.5">
+              <div className="flex justify-between text-xs">
+                <span className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-blue-400 inline-block" />
+                  Google Ads
+                </span>
+                <span className="text-zinc-300 font-medium">
+                  {formatNumberFull(hoveredCity.googleAds)}
+                </span>
+              </div>
+              <div className="flex justify-between text-xs">
+                <span className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-purple-400 inline-block" />
+                  DV360
+                </span>
+                <span className="text-zinc-300 font-medium">
+                  {formatNumberFull(hoveredCity.dv360)}
+                </span>
+              </div>
             </div>
-            <div className="flex justify-between text-xs">
-              <span className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-purple-400 inline-block" />
-                DV360
-              </span>
-              <span className="text-zinc-300 font-medium">
-                {formatNumberFull(hoveredCity.dv360)}
-              </span>
+          ) : (
+            <div className="space-y-1.5">
+              <div className="flex justify-between text-xs">
+                <span className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-blue-400 inline-block" />
+                  Google Ads
+                </span>
+                <span className="text-zinc-300 font-medium">
+                  {formatNumberFull(hoveredCity.googleAdsClicks)}
+                </span>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       )}
     </div>
