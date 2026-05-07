@@ -104,7 +104,7 @@ export default function Home() {
             <p className="text-xs text-zinc-500 mt-1">{reportPeriod.meta}</p>
           </div>
         </div>
-      ) : (
+      ) : metric === "clicks" ? (
         <div className="grid grid-cols-3 gap-3 md:gap-4 mb-8">
           <div className="bg-[#1a1a2e] border border-[#2a2a3e] rounded-xl p-4">
             <p className="text-xs text-zinc-500 uppercase tracking-wider mb-1">
@@ -138,6 +138,40 @@ export default function Home() {
             <p className="text-xs text-zinc-500 mt-1">{reportPeriod.meta}</p>
           </div>
         </div>
+      ) : (
+        <div className="grid grid-cols-3 gap-3 md:gap-4 mb-8">
+          <div className="bg-[#1a1a2e] border border-[#2a2a3e] rounded-xl p-4">
+            <p className="text-xs text-zinc-500 uppercase tracking-wider mb-1">
+              Total DD Reach
+            </p>
+            <p className="text-xl md:text-2xl font-bold text-white">
+              {formatNumber(totalReach)}
+            </p>
+            <p className="text-xs text-zinc-500 mt-1">All platforms</p>
+          </div>
+          <div className="bg-[#1a1a2e] border border-[#2a2a3e] rounded-xl p-4">
+            <p className="text-xs text-zinc-500 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-blue-400 inline-block" />
+              Google
+            </p>
+            <p className="text-xl md:text-2xl font-bold text-white">
+              {formatNumber(Math.round(platformTotals.google / 7.5 / 3))}
+            </p>
+            <p className="text-xs text-zinc-500 mt-1">
+              {reportPeriod.google}
+            </p>
+          </div>
+          <div className="bg-[#1a1a2e] border border-[#2a2a3e] rounded-xl p-4">
+            <p className="text-xs text-zinc-500 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-sky-400 inline-block" />
+              Meta
+            </p>
+            <p className="text-xl md:text-2xl font-bold text-white">
+              {formatNumber(Math.round(platformTotals.meta / 7.5 / 3))}
+            </p>
+            <p className="text-xs text-zinc-500 mt-1">{reportPeriod.meta}</p>
+          </div>
+        </div>
       )}
 
       {/* Map + Table */}
@@ -149,7 +183,9 @@ export default function Home() {
               <h2 className="text-base font-semibold text-white mb-1">
                 {metric === "impressions"
                   ? "Impressions by State"
-                  : "Clicks by State"}
+                  : metric === "clicks"
+                  ? "Clicks by State"
+                  : "DeDuplicated Reach by State"}
               </h2>
               <p className="text-xs text-zinc-500 mb-4">
                 Hover over a state or city dot to see the breakdown
@@ -175,6 +211,16 @@ export default function Home() {
                 }`}
               >
                 Clicks
+              </button>
+              <button
+                onClick={() => setMetric("reach")}
+                className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${
+                  metric === "reach"
+                    ? "bg-[#f59e0b]/15 text-amber-400 border border-amber-500/30"
+                    : "text-zinc-400 hover:text-zinc-200 border border-transparent"
+                }`}
+              >
+                Reach
               </button>
             </div>
           </div>
@@ -242,7 +288,7 @@ export default function Home() {
                   </tr>
                 </tfoot>
               </table>
-            ) : (
+            ) : metric === "clicks" ? (
               <table className="w-full text-sm">
                 <thead>
                   <tr className="text-zinc-500 text-xs uppercase tracking-wider border-b border-[#2a2a3e]">
@@ -292,6 +338,54 @@ export default function Home() {
                       {formatNumber(totalClicks)}
                     </td>
                     <td className="py-2.5 pl-2 text-right text-emerald-400 tabular-nums">
+                      {formatNumber(totalReach)}
+                    </td>
+                  </tr>
+                </tfoot>
+              </table>
+            ) : (
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="text-zinc-500 text-xs uppercase tracking-wider border-b border-[#2a2a3e]">
+                    <th className="text-left py-2 pr-2">State</th>
+                    <th className="text-right py-2 px-2">Google</th>
+                    <th className="text-right py-2 px-2">Meta</th>
+                    <th className="text-right py-2 pl-2">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {Object.values(filteredData)
+                    .sort((a, b) => b.total - a.total)
+                    .map((state) => (
+                      <tr
+                        key={state.abbr}
+                        className="border-b border-[#2a2a3e]/50 hover:bg-[#22223a] transition-colors"
+                      >
+                        <td className="py-2.5 pr-2 font-medium text-zinc-300">
+                          {state.abbr}
+                        </td>
+                        <td className="py-2.5 px-2 text-right text-zinc-400 tabular-nums">
+                          {formatNumber(Math.round(state.google / 7.5 / 3))}
+                        </td>
+                        <td className="py-2.5 px-2 text-right text-zinc-400 tabular-nums">
+                          {formatNumber(Math.round(state.meta / 7.5 / 3))}
+                        </td>
+                        <td className="py-2.5 pl-2 text-right font-semibold text-white tabular-nums">
+                          {formatNumber(Math.round(state.total / 7.5 / 3))}
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+                <tfoot>
+                  <tr className="border-t border-[#2a2a3e] font-semibold text-white">
+                    <td className="py-2.5 pr-2">Total</td>
+                    <td className="py-2.5 px-2 text-right tabular-nums">
+                      {formatNumber(Math.round(platformTotals.google / 7.5 / 3))}
+                    </td>
+                    <td className="py-2.5 px-2 text-right tabular-nums">
+                      {formatNumber(Math.round(platformTotals.meta / 7.5 / 3))}
+                    </td>
+                    <td className="py-2.5 pl-2 text-right tabular-nums">
                       {formatNumber(totalReach)}
                     </td>
                   </tr>

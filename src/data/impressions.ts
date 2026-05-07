@@ -148,7 +148,7 @@ export const stateData: Record<string, StateData> = {
   },
 };
 
-export type Metric = "impressions" | "clicks";
+export type Metric = "impressions" | "clicks" | "reach";
 
 export const availableMonths = [
   { key: "all", label: "All Time" },

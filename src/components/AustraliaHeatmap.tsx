@@ -28,6 +28,14 @@ function getColor(value: number, maxValue: number, metric: Metric): string {
     if (ratio > 0.05) return "#93c5fd";
     return "#bfdbfe";
   }
+  if (metric === "reach") {
+    if (ratio > 0.8) return "#92400e";
+    if (ratio > 0.6) return "#b45309";
+    if (ratio > 0.4) return "#d97706";
+    if (ratio > 0.2) return "#f59e0b";
+    if (ratio > 0.05) return "#fbbf24";
+    return "#fde68a";
+  }
   if (ratio > 0.8) return "#15803d";
   if (ratio > 0.6) return "#16a34a";
   if (ratio > 0.4) return "#22c55e";
@@ -47,11 +55,15 @@ function formatNumberFull(n: number): string {
 }
 
 function getStateValue(data: StateData, metric: Metric): number {
-  return metric === "impressions" ? data.total : data.clicks.total;
+  if (metric === "clicks") return data.clicks.total;
+  if (metric === "reach") return Math.round(data.total / 7.5 / 3);
+  return data.total;
 }
 
 function getCityValue(data: CityData, metric: Metric): number {
-  return metric === "impressions" ? data.total : data.totalClicks;
+  if (metric === "clicks") return data.totalClicks;
+  if (metric === "reach") return Math.round(data.total / 7.5 / 3);
+  return data.total;
 }
 
 function getDotRadius(value: number, maxValue: number): number {
@@ -129,11 +141,13 @@ export default function AustraliaHeatmap({ metric, stateDataOverride }: Props) {
     : null;
   const hoveredCity = hovered?.type === "city" ? hovered.data : null;
 
-  const metricLabel = metric === "impressions" ? "impressions" : "clicks";
+  const metricLabel = metric === "impressions" ? "impressions" : metric === "clicks" ? "clicks" : "DD reach";
   const colorScale =
-    metric === "impressions"
-      ? ["#bbf7d0", "#86efac", "#4ade80", "#22c55e", "#16a34a", "#15803d"]
-      : ["#bfdbfe", "#93c5fd", "#60a5fa", "#3b82f6", "#2563eb", "#1e40af"];
+    metric === "clicks"
+      ? ["#bfdbfe", "#93c5fd", "#60a5fa", "#3b82f6", "#2563eb", "#1e40af"]
+      : metric === "reach"
+      ? ["#fde68a", "#fbbf24", "#f59e0b", "#d97706", "#b45309", "#92400e"]
+      : ["#bbf7d0", "#86efac", "#4ade80", "#22c55e", "#16a34a", "#15803d"];
 
   return (
     <div className="relative">
@@ -330,28 +344,7 @@ export default function AustraliaHeatmap({ metric, stateDataOverride }: Props) {
             Total: {formatNumberFull(getStateValue(hoveredStateData, metric))}{" "}
             {metricLabel}
           </div>
-          {metric === "impressions" ? (
-            <div className="space-y-1.5">
-              <div className="flex justify-between text-xs">
-                <span className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-blue-400 inline-block" />
-                  Google
-                </span>
-                <span className="text-zinc-300 font-medium">
-                  {formatNumberFull(hoveredStateData.google)}
-                </span>
-              </div>
-              <div className="flex justify-between text-xs">
-                <span className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-sky-400 inline-block" />
-                  Meta
-                </span>
-                <span className="text-zinc-300 font-medium">
-                  {formatNumberFull(hoveredStateData.meta)}
-                </span>
-              </div>
-            </div>
-          ) : (
+          {metric === "clicks" ? (
             <div className="space-y-1.5">
               <div className="flex justify-between text-xs">
                 <span className="flex items-center gap-1.5">
@@ -369,6 +362,48 @@ export default function AustraliaHeatmap({ metric, stateDataOverride }: Props) {
                 </span>
                 <span className="text-zinc-300 font-medium">
                   {formatNumberFull(hoveredStateData.clicks.meta)}
+                </span>
+              </div>
+            </div>
+          ) : metric === "reach" ? (
+            <div className="space-y-1.5">
+              <div className="flex justify-between text-xs">
+                <span className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-blue-400 inline-block" />
+                  Google
+                </span>
+                <span className="text-zinc-300 font-medium">
+                  {formatNumberFull(Math.round(hoveredStateData.google / 7.5 / 3))}
+                </span>
+              </div>
+              <div className="flex justify-between text-xs">
+                <span className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-sky-400 inline-block" />
+                  Meta
+                </span>
+                <span className="text-zinc-300 font-medium">
+                  {formatNumberFull(Math.round(hoveredStateData.meta / 7.5 / 3))}
+                </span>
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-1.5">
+              <div className="flex justify-between text-xs">
+                <span className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-blue-400 inline-block" />
+                  Google
+                </span>
+                <span className="text-zinc-300 font-medium">
+                  {formatNumberFull(hoveredStateData.google)}
+                </span>
+              </div>
+              <div className="flex justify-between text-xs">
+                <span className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-sky-400 inline-block" />
+                  Meta
+                </span>
+                <span className="text-zinc-300 font-medium">
+                  {formatNumberFull(hoveredStateData.meta)}
                 </span>
               </div>
             </div>
@@ -392,9 +427,11 @@ export default function AustraliaHeatmap({ metric, stateDataOverride }: Props) {
           </div>
           <div className="text-xs text-zinc-500 mb-2">{hoveredCity.state}</div>
           <div className="text-xs text-zinc-400 mb-2">
-            {metric === "impressions"
-              ? `Total: ${formatNumberFull(hoveredCity.total)} impressions`
-              : `Total: ${formatNumberFull(hoveredCity.totalClicks)} clicks`}
+            {metric === "clicks"
+              ? `Total: ${formatNumberFull(hoveredCity.totalClicks)} clicks`
+              : metric === "reach"
+              ? `DD Reach: ${formatNumberFull(Math.round(hoveredCity.total / 7.5 / 3))}`
+              : `Total: ${formatNumberFull(hoveredCity.total)} impressions`}
           </div>
           <div className="space-y-1.5">
             <div className="flex justify-between text-xs">
@@ -403,9 +440,11 @@ export default function AustraliaHeatmap({ metric, stateDataOverride }: Props) {
                 Google
               </span>
               <span className="text-zinc-300 font-medium">
-                {metric === "impressions"
-                  ? formatNumberFull(hoveredCity.google)
-                  : formatNumberFull(hoveredCity.googleClicks)}
+                {metric === "clicks"
+                  ? formatNumberFull(hoveredCity.googleClicks)
+                  : metric === "reach"
+                  ? formatNumberFull(Math.round(hoveredCity.google / 7.5 / 3))
+                  : formatNumberFull(hoveredCity.google)}
               </span>
             </div>
           </div>
