@@ -1,0 +1,158 @@
+import AustraliaHeatmap from "@/components/AustraliaHeatmap";
+import { stateData, totalImpressions, reportPeriod } from "@/data/impressions";
+
+function formatNumber(n: number): string {
+  if (n >= 1_000_000) return (n / 1_000_000).toFixed(1) + "M";
+  if (n >= 1_000) return (n / 1_000).toFixed(0) + "K";
+  return n.toString();
+}
+
+const platformTotals = Object.values(stateData).reduce(
+  (acc, s) => ({
+    googleAds: acc.googleAds + s.googleAds,
+    dv360: acc.dv360 + s.dv360,
+    meta: acc.meta + s.meta,
+  }),
+  { googleAds: 0, dv360: 0, meta: 0 }
+);
+
+export default function Home() {
+  return (
+    <main className="min-h-screen px-4 py-8 md:px-8 lg:px-16 max-w-7xl mx-auto">
+      {/* Header */}
+      <div className="mb-8">
+        <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
+          Power Farming
+        </h1>
+        <p className="text-zinc-400 mt-1 text-sm">
+          Marketing Performance Dashboard
+        </p>
+      </div>
+
+      {/* Summary cards */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-8">
+        <div className="bg-[#1a1a2e] border border-[#2a2a3e] rounded-xl p-4">
+          <p className="text-xs text-zinc-500 uppercase tracking-wider mb-1">
+            Total Impressions
+          </p>
+          <p className="text-xl md:text-2xl font-bold text-white">
+            {formatNumber(totalImpressions)}
+          </p>
+          <p className="text-xs text-zinc-500 mt-1">All platforms</p>
+        </div>
+        <div className="bg-[#1a1a2e] border border-[#2a2a3e] rounded-xl p-4">
+          <p className="text-xs text-zinc-500 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-blue-400 inline-block" />
+            Google Ads
+          </p>
+          <p className="text-xl md:text-2xl font-bold text-white">
+            {formatNumber(platformTotals.googleAds)}
+          </p>
+          <p className="text-xs text-zinc-500 mt-1">{reportPeriod.googleAds}</p>
+        </div>
+        <div className="bg-[#1a1a2e] border border-[#2a2a3e] rounded-xl p-4">
+          <p className="text-xs text-zinc-500 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-purple-400 inline-block" />
+            DV360
+          </p>
+          <p className="text-xl md:text-2xl font-bold text-white">
+            {formatNumber(platformTotals.dv360)}
+          </p>
+          <p className="text-xs text-zinc-500 mt-1">{reportPeriod.dv360}</p>
+        </div>
+        <div className="bg-[#1a1a2e] border border-[#2a2a3e] rounded-xl p-4">
+          <p className="text-xs text-zinc-500 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-sky-400 inline-block" />
+            Meta
+          </p>
+          <p className="text-xl md:text-2xl font-bold text-white">
+            {formatNumber(platformTotals.meta)}
+          </p>
+          <p className="text-xs text-zinc-500 mt-1">{reportPeriod.meta}</p>
+        </div>
+      </div>
+
+      {/* Map + Table */}
+      <div className="grid lg:grid-cols-5 gap-6">
+        {/* Heatmap */}
+        <div className="lg:col-span-3 bg-[#1a1a2e] border border-[#2a2a3e] rounded-xl p-4 md:p-6">
+          <h2 className="text-base font-semibold text-white mb-1">
+            Impressions by State
+          </h2>
+          <p className="text-xs text-zinc-500 mb-4">
+            Hover over a state to see the platform breakdown
+          </p>
+          <AustraliaHeatmap />
+        </div>
+
+        {/* Table */}
+        <div className="lg:col-span-2 bg-[#1a1a2e] border border-[#2a2a3e] rounded-xl p-4 md:p-6">
+          <h2 className="text-base font-semibold text-white mb-4">
+            State Breakdown
+          </h2>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-zinc-500 text-xs uppercase tracking-wider border-b border-[#2a2a3e]">
+                  <th className="text-left py-2 pr-2">State</th>
+                  <th className="text-right py-2 px-2">Google</th>
+                  <th className="text-right py-2 px-2">DV360</th>
+                  <th className="text-right py-2 px-2">Meta</th>
+                  <th className="text-right py-2 pl-2">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Object.values(stateData)
+                  .sort((a, b) => b.total - a.total)
+                  .map((state) => (
+                    <tr
+                      key={state.abbr}
+                      className="border-b border-[#2a2a3e]/50 hover:bg-[#22223a] transition-colors"
+                    >
+                      <td className="py-2.5 pr-2 font-medium text-zinc-300">
+                        {state.abbr}
+                      </td>
+                      <td className="py-2.5 px-2 text-right text-zinc-400 tabular-nums">
+                        {formatNumber(state.googleAds)}
+                      </td>
+                      <td className="py-2.5 px-2 text-right text-zinc-400 tabular-nums">
+                        {formatNumber(state.dv360)}
+                      </td>
+                      <td className="py-2.5 px-2 text-right text-zinc-400 tabular-nums">
+                        {formatNumber(state.meta)}
+                      </td>
+                      <td className="py-2.5 pl-2 text-right font-semibold text-white tabular-nums">
+                        {formatNumber(state.total)}
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+              <tfoot>
+                <tr className="border-t border-[#2a2a3e] font-semibold text-white">
+                  <td className="py-2.5 pr-2">Total</td>
+                  <td className="py-2.5 px-2 text-right tabular-nums">
+                    {formatNumber(platformTotals.googleAds)}
+                  </td>
+                  <td className="py-2.5 px-2 text-right tabular-nums">
+                    {formatNumber(platformTotals.dv360)}
+                  </td>
+                  <td className="py-2.5 px-2 text-right tabular-nums">
+                    {formatNumber(platformTotals.meta)}
+                  </td>
+                  <td className="py-2.5 pl-2 text-right tabular-nums">
+                    {formatNumber(totalImpressions)}
+                  </td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="mt-8 text-center text-xs text-zinc-600">
+        Data sources: Google Ads, DV360, Meta Ads
+      </div>
+    </main>
+  );
+}
