@@ -22,9 +22,10 @@ const platformTotals = Object.values(stateData).reduce(
     dv360: acc.dv360 + s.dv360,
     meta: acc.meta + s.meta,
     clicksGoogle: acc.clicksGoogle + s.clicks.googleAds,
+    clicksDv360: acc.clicksDv360 + s.clicks.dv360,
     clicksMeta: acc.clicksMeta + s.clicks.meta,
   }),
-  { googleAds: 0, dv360: 0, meta: 0, clicksGoogle: 0, clicksMeta: 0 }
+  { googleAds: 0, dv360: 0, meta: 0, clicksGoogle: 0, clicksDv360: 0, clicksMeta: 0 }
 );
 
 export default function Home() {
@@ -114,7 +115,7 @@ export default function Home() {
           </div>
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-8">
           <div className="bg-[#1a1a2e] border border-[#2a2a3e] rounded-xl p-4">
             <p className="text-xs text-zinc-500 uppercase tracking-wider mb-1">
               Total Clicks
@@ -122,9 +123,7 @@ export default function Home() {
             <p className="text-xl md:text-2xl font-bold text-white">
               {formatNumber(totalClicks)}
             </p>
-            <p className="text-xs text-zinc-500 mt-1">
-              Google Ads + Meta
-            </p>
+            <p className="text-xs text-zinc-500 mt-1">All platforms</p>
           </div>
           <div className="bg-[#1a1a2e] border border-[#2a2a3e] rounded-xl p-4">
             <p className="text-xs text-zinc-500 uppercase tracking-wider mb-1 flex items-center gap-1.5">
@@ -137,6 +136,16 @@ export default function Home() {
             <p className="text-xs text-zinc-500 mt-1">
               {reportPeriod.googleAds}
             </p>
+          </div>
+          <div className="bg-[#1a1a2e] border border-[#2a2a3e] rounded-xl p-4">
+            <p className="text-xs text-zinc-500 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-purple-400 inline-block" />
+              DV360
+            </p>
+            <p className="text-xl md:text-2xl font-bold text-white">
+              {formatNumber(platformTotals.clicksDv360)}
+            </p>
+            <p className="text-xs text-zinc-500 mt-1">{reportPeriod.dv360}</p>
           </div>
           <div className="bg-[#1a1a2e] border border-[#2a2a3e] rounded-xl p-4">
             <p className="text-xs text-zinc-500 uppercase tracking-wider mb-1 flex items-center gap-1.5">
@@ -233,6 +242,7 @@ export default function Home() {
                   <tr className="text-zinc-500 text-xs uppercase tracking-wider border-b border-[#2a2a3e]">
                     <th className="text-left py-2 pr-2">State</th>
                     <th className="text-right py-2 px-2">Google</th>
+                    <th className="text-right py-2 px-2">DV360</th>
                     <th className="text-right py-2 px-2">Meta</th>
                     <th className="text-right py-2 pl-2">Total</th>
                   </tr>
@@ -252,6 +262,9 @@ export default function Home() {
                           {formatNumber(state.clicks.googleAds)}
                         </td>
                         <td className="py-2.5 px-2 text-right text-zinc-400 tabular-nums">
+                          {formatNumber(state.clicks.dv360)}
+                        </td>
+                        <td className="py-2.5 px-2 text-right text-zinc-400 tabular-nums">
                           {formatNumber(state.clicks.meta)}
                         </td>
                         <td className="py-2.5 pl-2 text-right font-semibold text-white tabular-nums">
@@ -265,6 +278,9 @@ export default function Home() {
                     <td className="py-2.5 pr-2">Total</td>
                     <td className="py-2.5 px-2 text-right tabular-nums">
                       {formatNumber(platformTotals.clicksGoogle)}
+                    </td>
+                    <td className="py-2.5 px-2 text-right tabular-nums">
+                      {formatNumber(platformTotals.clicksDv360)}
                     </td>
                     <td className="py-2.5 px-2 text-right tabular-nums">
                       {formatNumber(platformTotals.clicksMeta)}

@@ -7,6 +7,7 @@ export interface CityData {
   dv360: number;
   total: number;
   googleAdsClicks: number;
+  dv360Clicks: number;
   totalClicks: number;
 }
 
@@ -20,7 +21,8 @@ export const cityData: CityData[] = [
     "dv360": 125673,
     "total": 745678,
     "googleAdsClicks": 7752,
-    "totalClicks": 7752
+    "dv360Clicks": 318,
+    "totalClicks": 8070
   },
   {
     "city": "Brisbane",
@@ -31,7 +33,8 @@ export const cityData: CityData[] = [
     "dv360": 44017,
     "total": 671690,
     "googleAdsClicks": 7002,
-    "totalClicks": 7002
+    "dv360Clicks": 121,
+    "totalClicks": 7123
   },
   {
     "city": "Melbourne",
@@ -42,7 +45,8 @@ export const cityData: CityData[] = [
     "dv360": 79273,
     "total": 428613,
     "googleAdsClicks": 4901,
-    "totalClicks": 4901
+    "dv360Clicks": 252,
+    "totalClicks": 5153
   },
   {
     "city": "Adelaide",
@@ -53,7 +57,8 @@ export const cityData: CityData[] = [
     "dv360": 17344,
     "total": 291155,
     "googleAdsClicks": 3234,
-    "totalClicks": 3234
+    "dv360Clicks": 59,
+    "totalClicks": 3293
   },
   {
     "city": "Perth",
@@ -64,7 +69,8 @@ export const cityData: CityData[] = [
     "dv360": 30830,
     "total": 196709,
     "googleAdsClicks": 2202,
-    "totalClicks": 2202
+    "dv360Clicks": 103,
+    "totalClicks": 2305
   },
   {
     "city": "Truganina",
@@ -75,6 +81,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 78308,
     "googleAdsClicks": 1112,
+    "dv360Clicks": 0,
     "totalClicks": 1112
   },
   {
@@ -86,6 +93,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 57278,
     "googleAdsClicks": 632,
+    "dv360Clicks": 0,
     "totalClicks": 632
   },
   {
@@ -97,6 +105,7 @@ export const cityData: CityData[] = [
     "dv360": 5,
     "total": 42378,
     "googleAdsClicks": 653,
+    "dv360Clicks": 0,
     "totalClicks": 653
   },
   {
@@ -108,6 +117,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 41293,
     "googleAdsClicks": 533,
+    "dv360Clicks": 0,
     "totalClicks": 533
   },
   {
@@ -119,6 +129,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 38468,
     "googleAdsClicks": 536,
+    "dv360Clicks": 0,
     "totalClicks": 536
   },
   {
@@ -130,6 +141,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 35475,
     "googleAdsClicks": 445,
+    "dv360Clicks": 0,
     "totalClicks": 445
   },
   {
@@ -141,6 +153,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 33354,
     "googleAdsClicks": 444,
+    "dv360Clicks": 0,
     "totalClicks": 444
   },
   {
@@ -152,6 +165,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 30937,
     "googleAdsClicks": 464,
+    "dv360Clicks": 0,
     "totalClicks": 464
   },
   {
@@ -163,6 +177,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 29634,
     "googleAdsClicks": 351,
+    "dv360Clicks": 0,
     "totalClicks": 351
   },
   {
@@ -174,6 +189,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 29375,
     "googleAdsClicks": 324,
+    "dv360Clicks": 0,
     "totalClicks": 324
   },
   {
@@ -185,6 +201,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 29319,
     "googleAdsClicks": 352,
+    "dv360Clicks": 0,
     "totalClicks": 352
   },
   {
@@ -196,6 +213,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 28937,
     "googleAdsClicks": 370,
+    "dv360Clicks": 0,
     "totalClicks": 370
   },
   {
@@ -207,6 +225,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 28431,
     "googleAdsClicks": 313,
+    "dv360Clicks": 0,
     "totalClicks": 313
   },
   {
@@ -218,6 +237,7 @@ export const cityData: CityData[] = [
     "dv360": 631,
     "total": 28363,
     "googleAdsClicks": 386,
+    "dv360Clicks": 0,
     "totalClicks": 386
   },
   {
@@ -229,6 +249,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 28277,
     "googleAdsClicks": 345,
+    "dv360Clicks": 0,
     "totalClicks": 345
   },
   {
@@ -240,6 +261,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 27204,
     "googleAdsClicks": 323,
+    "dv360Clicks": 0,
     "totalClicks": 323
   },
   {
@@ -251,6 +273,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 26094,
     "googleAdsClicks": 259,
+    "dv360Clicks": 0,
     "totalClicks": 259
   },
   {
@@ -262,6 +285,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 25918,
     "googleAdsClicks": 340,
+    "dv360Clicks": 0,
     "totalClicks": 340
   },
   {
@@ -273,6 +297,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 25293,
     "googleAdsClicks": 288,
+    "dv360Clicks": 0,
     "totalClicks": 288
   },
   {
@@ -284,6 +309,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 24128,
     "googleAdsClicks": 272,
+    "dv360Clicks": 0,
     "totalClicks": 272
   },
   {
@@ -295,6 +321,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 23448,
     "googleAdsClicks": 237,
+    "dv360Clicks": 0,
     "totalClicks": 237
   },
   {
@@ -306,6 +333,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 23110,
     "googleAdsClicks": 248,
+    "dv360Clicks": 0,
     "totalClicks": 248
   },
   {
@@ -317,6 +345,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 22482,
     "googleAdsClicks": 237,
+    "dv360Clicks": 0,
     "totalClicks": 237
   },
   {
@@ -328,6 +357,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 22231,
     "googleAdsClicks": 263,
+    "dv360Clicks": 0,
     "totalClicks": 263
   },
   {
@@ -339,6 +369,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 22014,
     "googleAdsClicks": 227,
+    "dv360Clicks": 0,
     "totalClicks": 227
   },
   {
@@ -350,6 +381,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 21344,
     "googleAdsClicks": 257,
+    "dv360Clicks": 0,
     "totalClicks": 257
   },
   {
@@ -361,6 +393,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 20989,
     "googleAdsClicks": 182,
+    "dv360Clicks": 0,
     "totalClicks": 182
   },
   {
@@ -372,6 +405,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 20780,
     "googleAdsClicks": 259,
+    "dv360Clicks": 0,
     "totalClicks": 259
   },
   {
@@ -383,6 +417,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 20636,
     "googleAdsClicks": 164,
+    "dv360Clicks": 0,
     "totalClicks": 164
   },
   {
@@ -394,6 +429,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 20535,
     "googleAdsClicks": 217,
+    "dv360Clicks": 0,
     "totalClicks": 217
   },
   {
@@ -405,18 +441,8 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 20468,
     "googleAdsClicks": 255,
+    "dv360Clicks": 0,
     "totalClicks": 255
-  },
-  {
-    "city": "City of Canada Bay Council",
-    "state": "New South Wales",
-    "lat": -33.87,
-    "lng": 151.1,
-    "googleAds": 20328,
-    "dv360": 0,
-    "total": 20328,
-    "googleAdsClicks": 193,
-    "totalClicks": 193
   },
   {
     "city": "City of Stirling",
@@ -427,7 +453,20 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 20328,
     "googleAdsClicks": 283,
+    "dv360Clicks": 0,
     "totalClicks": 283
+  },
+  {
+    "city": "City of Canada Bay Council",
+    "state": "New South Wales",
+    "lat": -33.87,
+    "lng": 151.1,
+    "googleAds": 20328,
+    "dv360": 0,
+    "total": 20328,
+    "googleAdsClicks": 193,
+    "dv360Clicks": 0,
+    "totalClicks": 193
   },
   {
     "city": "Narre Warren South",
@@ -438,6 +477,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 20199,
     "googleAdsClicks": 215,
+    "dv360Clicks": 0,
     "totalClicks": 215
   },
   {
@@ -449,6 +489,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 20037,
     "googleAdsClicks": 343,
+    "dv360Clicks": 0,
     "totalClicks": 343
   },
   {
@@ -460,6 +501,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 19983,
     "googleAdsClicks": 262,
+    "dv360Clicks": 0,
     "totalClicks": 262
   },
   {
@@ -471,6 +513,19 @@ export const cityData: CityData[] = [
     "dv360": 30,
     "total": 19814,
     "googleAdsClicks": 191,
+    "dv360Clicks": 1,
+    "totalClicks": 192
+  },
+  {
+    "city": "Townsville",
+    "state": "Townsville City",
+    "lat": -19.26,
+    "lng": 146.8,
+    "googleAds": 18327,
+    "dv360": 1478,
+    "total": 19805,
+    "googleAdsClicks": 184,
+    "dv360Clicks": 7,
     "totalClicks": 191
   },
   {
@@ -482,6 +537,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 19547,
     "googleAdsClicks": 165,
+    "dv360Clicks": 0,
     "totalClicks": 165
   },
   {
@@ -493,6 +549,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 19520,
     "googleAdsClicks": 266,
+    "dv360Clicks": 0,
     "totalClicks": 266
   },
   {
@@ -504,6 +561,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 19271,
     "googleAdsClicks": 209,
+    "dv360Clicks": 0,
     "totalClicks": 209
   },
   {
@@ -515,6 +573,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 19182,
     "googleAdsClicks": 185,
+    "dv360Clicks": 0,
     "totalClicks": 185
   },
   {
@@ -526,6 +585,7 @@ export const cityData: CityData[] = [
     "dv360": 0,
     "total": 18685,
     "googleAdsClicks": 222,
+    "dv360Clicks": 0,
     "totalClicks": 222
   }
 ];

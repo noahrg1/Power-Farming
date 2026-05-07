@@ -5,7 +5,7 @@ export interface StateData {
   dv360: number;
   meta: number;
   total: number;
-  clicks: { googleAds: number; meta: number; total: number };
+  clicks: { googleAds: number; dv360: number; meta: number; total: number };
 }
 
 export const stateData: Record<string, StateData> = {
@@ -16,7 +16,7 @@ export const stateData: Record<string, StateData> = {
     dv360: 176109,
     meta: 645700,
     total: 3232342,
-    clicks: { googleAds: 29947, meta: 11115, total: 41062 },
+    clicks: { googleAds: 29947, dv360: 490, meta: 11115, total: 41552 },
   },
   VIC: {
     name: "Victoria",
@@ -25,7 +25,7 @@ export const stateData: Record<string, StateData> = {
     dv360: 99143,
     meta: 601628,
     total: 2805786,
-    clicks: { googleAds: 27721, meta: 10335, total: 38056 },
+    clicks: { googleAds: 27721, dv360: 330, meta: 10335, total: 38386 },
   },
   QLD: {
     name: "Queensland",
@@ -34,7 +34,7 @@ export const stateData: Record<string, StateData> = {
     dv360: 67334,
     meta: 555845,
     total: 2321556,
-    clicks: { googleAds: 19949, meta: 9702, total: 29651 },
+    clicks: { googleAds: 19949, dv360: 202, meta: 9702, total: 29853 },
   },
   WA: {
     name: "Western Australia",
@@ -43,7 +43,7 @@ export const stateData: Record<string, StateData> = {
     dv360: 36889,
     meta: 258694,
     total: 1313849,
-    clicks: { googleAds: 12275, meta: 4127, total: 16402 },
+    clicks: { googleAds: 12275, dv360: 111, meta: 4127, total: 16513 },
   },
   SA: {
     name: "South Australia",
@@ -52,7 +52,7 @@ export const stateData: Record<string, StateData> = {
     dv360: 21649,
     meta: 174915,
     total: 1048319,
-    clicks: { googleAds: 9780, meta: 3239, total: 13019 },
+    clicks: { googleAds: 9780, dv360: 74, meta: 3239, total: 13093 },
   },
   TAS: {
     name: "Tasmania",
@@ -61,7 +61,7 @@ export const stateData: Record<string, StateData> = {
     dv360: 0,
     meta: 86278,
     total: 252425,
-    clicks: { googleAds: 2085, meta: 1404, total: 3489 },
+    clicks: { googleAds: 2085, dv360: 0, meta: 1404, total: 3489 },
   },
   ACT: {
     name: "Australian Capital Territory",
@@ -70,7 +70,7 @@ export const stateData: Record<string, StateData> = {
     dv360: 0,
     meta: 13128,
     total: 86184,
-    clicks: { googleAds: 711, meta: 240, total: 951 },
+    clicks: { googleAds: 711, dv360: 0, meta: 240, total: 951 },
   },
   NT: {
     name: "Northern Territory",
@@ -79,7 +79,7 @@ export const stateData: Record<string, StateData> = {
     dv360: 0,
     meta: 22897,
     total: 46353,
-    clicks: { googleAds: 315, meta: 449, total: 764 },
+    clicks: { googleAds: 315, dv360: 0, meta: 449, total: 764 },
   },
 };
 

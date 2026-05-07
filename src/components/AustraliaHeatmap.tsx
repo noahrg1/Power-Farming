@@ -305,8 +305,7 @@ export default function AustraliaHeatmap({ metric }: Props) {
             fontSize="11"
             dominantBaseline="middle"
           >
-            City dots: sized by city {metricLabel} (Google Ads
-            {metric === "impressions" ? " + DV360" : ""})
+            City dots: sized by city {metricLabel} (Google Ads + DV360)
           </text>
         </g>
       </svg>
@@ -372,15 +371,21 @@ export default function AustraliaHeatmap({ metric }: Props) {
               </div>
               <div className="flex justify-between text-xs">
                 <span className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-purple-400 inline-block" />
+                  DV360
+                </span>
+                <span className="text-zinc-300 font-medium">
+                  {formatNumberFull(hoveredStateData.clicks.dv360)}
+                </span>
+              </div>
+              <div className="flex justify-between text-xs">
+                <span className="flex items-center gap-1.5">
                   <span className="w-2 h-2 rounded-full bg-sky-400 inline-block" />
                   Meta
                 </span>
                 <span className="text-zinc-300 font-medium">
                   {formatNumberFull(hoveredStateData.clicks.meta)}
                 </span>
-              </div>
-              <div className="text-xs text-zinc-500 mt-1 italic">
-                DV360 click data not available
               </div>
             </div>
           )}
@@ -437,6 +442,15 @@ export default function AustraliaHeatmap({ metric }: Props) {
                 </span>
                 <span className="text-zinc-300 font-medium">
                   {formatNumberFull(hoveredCity.googleAdsClicks)}
+                </span>
+              </div>
+              <div className="flex justify-between text-xs">
+                <span className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-purple-400 inline-block" />
+                  DV360
+                </span>
+                <span className="text-zinc-300 font-medium">
+                  {formatNumberFull(hoveredCity.dv360Clicks)}
                 </span>
               </div>
             </div>
