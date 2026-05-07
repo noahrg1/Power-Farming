@@ -155,7 +155,7 @@ export default function Home() {
               Google
             </p>
             <p className="text-xl md:text-2xl font-bold text-white">
-              {formatNumber(Math.round(platformTotals.google / 7.5 / 3))}
+              {formatNumber(Math.round(platformTotals.google / 14))}
             </p>
             <p className="text-xs text-zinc-500 mt-1">
               {reportPeriod.google}
@@ -167,7 +167,7 @@ export default function Home() {
               Meta
             </p>
             <p className="text-xl md:text-2xl font-bold text-white">
-              {formatNumber(Math.round(platformTotals.meta / 7.5 / 3))}
+              {formatNumber(Math.round(platformTotals.meta / 7.5))}
             </p>
             <p className="text-xs text-zinc-500 mt-1">{reportPeriod.meta}</p>
           </div>
@@ -365,10 +365,10 @@ export default function Home() {
                           {state.abbr}
                         </td>
                         <td className="py-2.5 px-2 text-right text-zinc-400 tabular-nums">
-                          {formatNumber(Math.round(state.google / 7.5 / 3))}
+                          {formatNumber(Math.round(state.google / 14))}
                         </td>
                         <td className="py-2.5 px-2 text-right text-zinc-400 tabular-nums">
-                          {formatNumber(Math.round(state.meta / 7.5 / 3))}
+                          {formatNumber(Math.round(state.meta / 7.5))}
                         </td>
                         <td className="py-2.5 pl-2 text-right font-semibold text-white tabular-nums">
                           {formatNumber(Math.round(state.total / 7.5 / 3))}
@@ -380,10 +380,10 @@ export default function Home() {
                   <tr className="border-t border-[#2a2a3e] font-semibold text-white">
                     <td className="py-2.5 pr-2">Total</td>
                     <td className="py-2.5 px-2 text-right tabular-nums">
-                      {formatNumber(Math.round(platformTotals.google / 7.5 / 3))}
+                      {formatNumber(Math.round(platformTotals.google / 14))}
                     </td>
                     <td className="py-2.5 px-2 text-right tabular-nums">
-                      {formatNumber(Math.round(platformTotals.meta / 7.5 / 3))}
+                      {formatNumber(Math.round(platformTotals.meta / 7.5))}
                     </td>
                     <td className="py-2.5 pl-2 text-right tabular-nums">
                       {formatNumber(totalReach)}

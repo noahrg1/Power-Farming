@@ -373,7 +373,7 @@ export default function AustraliaHeatmap({ metric, stateDataOverride }: Props) {
                   Google
                 </span>
                 <span className="text-zinc-300 font-medium">
-                  {formatNumberFull(Math.round(hoveredStateData.google / 7.5 / 3))}
+                  {formatNumberFull(Math.round(hoveredStateData.google / 14))}
                 </span>
               </div>
               <div className="flex justify-between text-xs">
@@ -382,7 +382,7 @@ export default function AustraliaHeatmap({ metric, stateDataOverride }: Props) {
                   Meta
                 </span>
                 <span className="text-zinc-300 font-medium">
-                  {formatNumberFull(Math.round(hoveredStateData.meta / 7.5 / 3))}
+                  {formatNumberFull(Math.round(hoveredStateData.meta / 7.5))}
                 </span>
               </div>
             </div>
@@ -443,7 +443,7 @@ export default function AustraliaHeatmap({ metric, stateDataOverride }: Props) {
                 {metric === "clicks"
                   ? formatNumberFull(hoveredCity.googleClicks)
                   : metric === "reach"
-                  ? formatNumberFull(Math.round(hoveredCity.google / 7.5 / 3))
+                  ? formatNumberFull(Math.round(hoveredCity.google / 14))
                   : formatNumberFull(hoveredCity.google)}
               </span>
             </div>
