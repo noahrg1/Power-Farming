@@ -42,29 +42,6 @@ export default function Home() {
           </p>
         </div>
 
-        {/* Metric tabs */}
-        <div className="flex bg-[#12121a] border border-[#2a2a3e] rounded-lg p-1">
-          <button
-            onClick={() => setMetric("impressions")}
-            className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${
-              metric === "impressions"
-                ? "bg-[#22c55e]/15 text-green-400 border border-green-500/30"
-                : "text-zinc-400 hover:text-zinc-200 border border-transparent"
-            }`}
-          >
-            Impressions
-          </button>
-          <button
-            onClick={() => setMetric("clicks")}
-            className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${
-              metric === "clicks"
-                ? "bg-[#3b82f6]/15 text-blue-400 border border-blue-500/30"
-                : "text-zinc-400 hover:text-zinc-200 border border-transparent"
-            }`}
-          >
-            Clicks
-          </button>
-        </div>
       </div>
 
       {/* Summary cards */}
@@ -142,14 +119,40 @@ export default function Home() {
       <div className="grid lg:grid-cols-5 gap-6">
         {/* Heatmap */}
         <div className="lg:col-span-3 bg-[#1a1a2e] border border-[#2a2a3e] rounded-xl p-4 md:p-6">
-          <h2 className="text-base font-semibold text-white mb-1">
-            {metric === "impressions"
-              ? "Impressions by State"
-              : "Clicks by State"}
-          </h2>
-          <p className="text-xs text-zinc-500 mb-4">
-            Hover over a state or city dot to see the breakdown
-          </p>
+          <div className="flex items-start justify-between mb-1">
+            <div>
+              <h2 className="text-base font-semibold text-white mb-1">
+                {metric === "impressions"
+                  ? "Impressions by State"
+                  : "Clicks by State"}
+              </h2>
+              <p className="text-xs text-zinc-500 mb-4">
+                Hover over a state or city dot to see the breakdown
+              </p>
+            </div>
+            <div className="flex bg-[#12121a] border border-[#2a2a3e] rounded-lg p-1">
+              <button
+                onClick={() => setMetric("impressions")}
+                className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${
+                  metric === "impressions"
+                    ? "bg-[#22c55e]/15 text-green-400 border border-green-500/30"
+                    : "text-zinc-400 hover:text-zinc-200 border border-transparent"
+                }`}
+              >
+                Impressions
+              </button>
+              <button
+                onClick={() => setMetric("clicks")}
+                className={`px-3 py-1 rounded-md text-xs font-medium transition-all ${
+                  metric === "clicks"
+                    ? "bg-[#3b82f6]/15 text-blue-400 border border-blue-500/30"
+                    : "text-zinc-400 hover:text-zinc-200 border border-transparent"
+                }`}
+              >
+                Clicks
+              </button>
+            </div>
+          </div>
           <AustraliaHeatmap metric={metric} />
         </div>
 
