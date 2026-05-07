@@ -36,7 +36,7 @@ export default function Home() {
 
   const totalImpressions = platformTotals.google + platformTotals.meta;
   const totalClicks = platformTotals.clicksGoogle + platformTotals.clicksMeta;
-  const totalReach = Math.round(totalImpressions / 7.5);
+  const totalReach = Math.round(totalImpressions / 7.5 / 3);
 
   return (
     <main className="min-h-screen px-4 py-8 md:px-8 lg:px-16 max-w-7xl mx-auto">
@@ -195,7 +195,7 @@ export default function Home() {
                     <th className="text-right py-2 px-2">Google</th>
                     <th className="text-right py-2 px-2">Meta</th>
                     <th className="text-right py-2 px-2">Total</th>
-                    <th className="text-right py-2 pl-2">Reach</th>
+                    <th className="text-right py-2 pl-2">DD Reach</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -219,7 +219,7 @@ export default function Home() {
                           {formatNumber(state.total)}
                         </td>
                         <td className="py-2.5 pl-2 text-right text-emerald-400 tabular-nums">
-                          {formatNumber(Math.round(state.total / 7.5))}
+                          {formatNumber(Math.round(state.total / 7.5 / 3))}
                         </td>
                       </tr>
                     ))}
@@ -250,7 +250,7 @@ export default function Home() {
                     <th className="text-right py-2 px-2">Google</th>
                     <th className="text-right py-2 px-2">Meta</th>
                     <th className="text-right py-2 px-2">Total</th>
-                    <th className="text-right py-2 pl-2">Reach</th>
+                    <th className="text-right py-2 pl-2">DD Reach</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -274,7 +274,7 @@ export default function Home() {
                           {formatNumber(state.clicks.total)}
                         </td>
                         <td className="py-2.5 pl-2 text-right text-emerald-400 tabular-nums">
-                          {formatNumber(Math.round(state.total / 7.5))}
+                          {formatNumber(Math.round(state.total / 7.5 / 3))}
                         </td>
                       </tr>
                     ))}
