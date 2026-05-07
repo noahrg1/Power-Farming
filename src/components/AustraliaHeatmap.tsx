@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useMemo, useCallback } from "react";
-import { geoPath, geoMercator } from "d3-geo";
+import { geoPath, geoMercator, type GeoProjection } from "d3-geo";
 import { stateData, type StateData } from "@/data/impressions";
+import { cityData, type CityData } from "@/data/cities";
 import australiaGeo from "@/data/australiaGeo";
 import type { Feature, FeatureCollection, Geometry } from "geojson";
 
@@ -38,27 +39,34 @@ function formatNumberFull(n: number): string {
   return n.toLocaleString("en-AU");
 }
 
+function getDotRadius(total: number, maxTotal: number): number {
+  const ratio = total / maxTotal;
+  return 3 + ratio * 14;
+}
+
 const WIDTH = 800;
 const HEIGHT = 750;
 
+type HoverTarget =
+  | { type: "state"; abbr: string }
+  | { type: "city"; data: CityData }
+  | null;
+
 export default function AustraliaHeatmap() {
-  const [hoveredState, setHoveredState] = useState<string | null>(null);
+  const [hovered, setHovered] = useState<HoverTarget>(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
 
-  const maxTotal = Math.max(...Object.values(stateData).map((s) => s.total));
-
-  const hoveredData: StateData | null = hoveredState
-    ? stateData[hoveredState]
-    : null;
+  const maxStateTotal = Math.max(
+    ...Object.values(stateData).map((s) => s.total)
+  );
+  const maxCityTotal = Math.max(...cityData.map((c) => c.total));
 
   // Set up D3 projection fitted to Australia
-  const { pathGenerator, centroids } = useMemo(() => {
+  const { pathGenerator, centroids, projection } = useMemo(() => {
     const geo = australiaGeo as FeatureCollection;
+    const proj = geoMercator().fitSize([WIDTH, HEIGHT - 60], geo);
+    const pathGen = geoPath().projection(proj);
 
-    const projection = geoMercator().fitSize([WIDTH, HEIGHT - 60], geo);
-    const pathGen = geoPath().projection(projection);
-
-    // Compute label positions (centroids)
     const cents: Record<string, [number, number]> = {};
     for (const feature of geo.features) {
       const abbr = nameToAbbr[feature.properties?.name] || "";
@@ -68,8 +76,19 @@ export default function AustraliaHeatmap() {
       }
     }
 
-    return { pathGenerator: pathGen, centroids: cents };
+    return { pathGenerator: pathGen, centroids: cents, projection: proj };
   }, []);
+
+  // Project city coordinates
+  const projectedCities = useMemo(() => {
+    return cityData
+      .map((city) => {
+        const point = projection([city.lng, city.lat]);
+        if (!point) return null;
+        return { ...city, x: point[0], y: point[1] };
+      })
+      .filter(Boolean) as (CityData & { x: number; y: number })[];
+  }, [projection]);
 
   const handleMouseMove = useCallback(
     (e: React.MouseEvent<SVGSVGElement>) => {
@@ -84,6 +103,13 @@ export default function AustraliaHeatmap() {
 
   const geo = australiaGeo as FeatureCollection;
 
+  const hoveredStateAbbr =
+    hovered?.type === "state" ? hovered.abbr : null;
+  const hoveredStateData: StateData | null = hoveredStateAbbr
+    ? stateData[hoveredStateAbbr]
+    : null;
+  const hoveredCity = hovered?.type === "city" ? hovered.data : null;
+
   return (
     <div className="relative">
       <svg
@@ -91,14 +117,14 @@ export default function AustraliaHeatmap() {
         className="w-full h-auto"
         onMouseMove={handleMouseMove}
       >
-        {/* State shapes from real GeoJSON */}
+        {/* State shapes */}
         {geo.features.map((feature) => {
           const name = feature.properties?.name as string;
           const abbr = nameToAbbr[name];
           if (!abbr || !stateData[abbr]) return null;
 
           const data = stateData[abbr];
-          const isHovered = hoveredState === abbr;
+          const isHovered = hoveredStateAbbr === abbr;
           const d = pathGenerator(feature as Feature<Geometry>);
           if (!d) return null;
 
@@ -107,17 +133,17 @@ export default function AustraliaHeatmap() {
           return (
             <g
               key={abbr}
-              onMouseEnter={() => setHoveredState(abbr)}
-              onMouseLeave={() => setHoveredState(null)}
+              onMouseEnter={() => setHovered({ type: "state", abbr })}
+              onMouseLeave={() => setHovered(null)}
               className="cursor-pointer"
             >
               <path
                 d={d}
-                fill={getColor(data.total, maxTotal)}
+                fill={getColor(data.total, maxStateTotal)}
                 stroke={isHovered ? "#ffffff" : "#0a0a0f"}
                 strokeWidth={isHovered ? 2 : 1}
                 className="transition-all duration-150"
-                opacity={hoveredState === null || isHovered ? 1 : 0.5}
+                opacity={hovered === null || isHovered ? 1 : 0.6}
               />
               {centroid && abbr !== "ACT" && (
                 <>
@@ -153,7 +179,7 @@ export default function AustraliaHeatmap() {
           );
         })}
 
-        {/* ACT label with leader line (too small for in-state label) */}
+        {/* ACT label with leader line */}
         {centroids.ACT && (
           <g pointerEvents="none">
             <line
@@ -188,10 +214,52 @@ export default function AustraliaHeatmap() {
           </g>
         )}
 
+        {/* City dots */}
+        {projectedCities.map((city) => {
+          const r = getDotRadius(city.total, maxCityTotal);
+          const isCityHovered =
+            hoveredCity?.city === city.city;
+          return (
+            <g
+              key={`${city.city}-${city.lat}`}
+              onMouseEnter={() =>
+                setHovered({ type: "city", data: city })
+              }
+              onMouseLeave={() => setHovered(null)}
+              className="cursor-pointer"
+            >
+              <circle
+                cx={city.x}
+                cy={city.y}
+                r={r}
+                fill={isCityHovered ? "#f59e0b" : "#f97316"}
+                fillOpacity={isCityHovered ? 0.95 : 0.7}
+                stroke={isCityHovered ? "#fff" : "#fdba74"}
+                strokeWidth={isCityHovered ? 2 : 0.5}
+                className="transition-all duration-150"
+              />
+              {r > 8 && (
+                <text
+                  x={city.x}
+                  y={city.y - r - 4}
+                  textAnchor="middle"
+                  fill="#fef3c7"
+                  fontSize={9}
+                  fontWeight="500"
+                  pointerEvents="none"
+                  style={{ textShadow: "0 1px 3px rgba(0,0,0,0.9)" }}
+                >
+                  {city.city}
+                </text>
+              )}
+            </g>
+          );
+        })}
+
         {/* Legend */}
-        <g transform={`translate(30, ${HEIGHT - 40})`}>
+        <g transform={`translate(30, ${HEIGHT - 55})`}>
           <text x="0" y="0" fill="#a1a1aa" fontSize="11">
-            Fewer impressions
+            State fill: impression volume
           </text>
           {[
             "#bbf7d0",
@@ -203,22 +271,25 @@ export default function AustraliaHeatmap() {
           ].map((color, i) => (
             <rect
               key={color}
-              x={i * 30}
-              y={8}
-              width={28}
-              height={12}
+              x={i * 28}
+              y={6}
+              width={26}
+              height={10}
               fill={color}
               rx={2}
             />
           ))}
-          <text x="190" y="0" fill="#a1a1aa" fontSize="11">
-            More impressions
+        </g>
+        <g transform={`translate(30, ${HEIGHT - 25})`}>
+          <circle cx={6} cy={0} r={4} fill="#f97316" fillOpacity={0.7} />
+          <text x={16} y="0" fill="#a1a1aa" fontSize="11" dominantBaseline="middle">
+            City dots: sized by city impressions (Google Ads + DV360)
           </text>
         </g>
       </svg>
 
-      {/* Tooltip */}
-      {hoveredData && (
+      {/* State tooltip */}
+      {hoveredStateData && (
         <div
           className="absolute pointer-events-none z-50 bg-[#1a1a2e] border border-[#2a2a3e] rounded-lg shadow-2xl px-4 py-3 min-w-[240px]"
           style={{
@@ -229,10 +300,10 @@ export default function AustraliaHeatmap() {
           }}
         >
           <div className="font-semibold text-white text-sm mb-2">
-            {hoveredData.name}
+            {hoveredStateData.name}
           </div>
           <div className="text-xs text-zinc-400 mb-2">
-            Total: {formatNumberFull(hoveredData.total)} impressions
+            Total: {formatNumberFull(hoveredStateData.total)} impressions
           </div>
           <div className="space-y-1.5">
             <div className="flex justify-between text-xs">
@@ -241,7 +312,7 @@ export default function AustraliaHeatmap() {
                 Google Ads
               </span>
               <span className="text-zinc-300 font-medium">
-                {formatNumberFull(hoveredData.googleAds)}
+                {formatNumberFull(hoveredStateData.googleAds)}
               </span>
             </div>
             <div className="flex justify-between text-xs">
@@ -250,7 +321,7 @@ export default function AustraliaHeatmap() {
                 DV360
               </span>
               <span className="text-zinc-300 font-medium">
-                {formatNumberFull(hoveredData.dv360)}
+                {formatNumberFull(hoveredStateData.dv360)}
               </span>
             </div>
             <div className="flex justify-between text-xs">
@@ -259,7 +330,48 @@ export default function AustraliaHeatmap() {
                 Meta
               </span>
               <span className="text-zinc-300 font-medium">
-                {formatNumberFull(hoveredData.meta)}
+                {formatNumberFull(hoveredStateData.meta)}
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* City tooltip */}
+      {hoveredCity && (
+        <div
+          className="absolute pointer-events-none z-50 bg-[#1a1a2e] border border-[#2a2a3e] rounded-lg shadow-2xl px-4 py-3 min-w-[220px]"
+          style={{
+            left: tooltipPos.x + 16,
+            top: tooltipPos.y - 10,
+            transform:
+              tooltipPos.x > 500 ? "translateX(-110%)" : "translateX(0)",
+          }}
+        >
+          <div className="font-semibold text-white text-sm">
+            {hoveredCity.city}
+          </div>
+          <div className="text-xs text-zinc-500 mb-2">{hoveredCity.state}</div>
+          <div className="text-xs text-zinc-400 mb-2">
+            Total: {formatNumberFull(hoveredCity.total)} impressions
+          </div>
+          <div className="space-y-1.5">
+            <div className="flex justify-between text-xs">
+              <span className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-blue-400 inline-block" />
+                Google Ads
+              </span>
+              <span className="text-zinc-300 font-medium">
+                {formatNumberFull(hoveredCity.googleAds)}
+              </span>
+            </div>
+            <div className="flex justify-between text-xs">
+              <span className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-purple-400 inline-block" />
+                DV360
+              </span>
+              <span className="text-zinc-300 font-medium">
+                {formatNumberFull(hoveredCity.dv360)}
               </span>
             </div>
           </div>
