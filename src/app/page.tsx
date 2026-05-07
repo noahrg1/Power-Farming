@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import AustraliaHeatmap from "@/components/AustraliaHeatmap";
 import {
   stateData,
-  totalImpressions,
-  totalClicks,
+  getFilteredStateData,
+  availableMonths,
   reportPeriod,
   type Metric,
 } from "@/data/impressions";
@@ -16,18 +16,27 @@ function formatNumber(n: number): string {
   return n.toString();
 }
 
-const platformTotals = Object.values(stateData).reduce(
-  (acc, s) => ({
-    google: acc.google + s.google,
-    meta: acc.meta + s.meta,
-    clicksGoogle: acc.clicksGoogle + s.clicks.google,
-    clicksMeta: acc.clicksMeta + s.clicks.meta,
-  }),
-  { google: 0, meta: 0, clicksGoogle: 0, clicksMeta: 0 }
-);
-
 export default function Home() {
   const [metric, setMetric] = useState<Metric>("impressions");
+  const [selectedMonth, setSelectedMonth] = useState("all");
+
+  const filteredData = useMemo(() => getFilteredStateData(selectedMonth), [selectedMonth]);
+
+  const platformTotals = useMemo(() =>
+    Object.values(filteredData).reduce(
+      (acc, s) => ({
+        google: acc.google + s.google,
+        meta: acc.meta + s.meta,
+        clicksGoogle: acc.clicksGoogle + s.clicks.google,
+        clicksMeta: acc.clicksMeta + s.clicks.meta,
+      }),
+      { google: 0, meta: 0, clicksGoogle: 0, clicksMeta: 0 }
+    ), [filteredData]
+  );
+
+  const totalImpressions = platformTotals.google + platformTotals.meta;
+  const totalClicks = platformTotals.clicksGoogle + platformTotals.clicksMeta;
+  const totalReach = Math.round(totalImpressions / 7.5);
 
   return (
     <main className="min-h-screen px-4 py-8 md:px-8 lg:px-16 max-w-7xl mx-auto">
@@ -42,6 +51,22 @@ export default function Home() {
           </p>
         </div>
 
+        {/* Month selector */}
+        <div className="flex bg-[#12121a] border border-[#2a2a3e] rounded-lg p-1 gap-0.5 flex-wrap">
+          {availableMonths.map((m) => (
+            <button
+              key={m.key}
+              onClick={() => setSelectedMonth(m.key)}
+              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+                selectedMonth === m.key
+                  ? "bg-white/10 text-white border border-white/20"
+                  : "text-zinc-400 hover:text-zinc-200 border border-transparent"
+              }`}
+            >
+              {m.key === "all" ? m.label : m.label.split(" ")[0].slice(0, 3)}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Summary cards */}
@@ -153,7 +178,7 @@ export default function Home() {
               </button>
             </div>
           </div>
-          <AustraliaHeatmap metric={metric} />
+          <AustraliaHeatmap metric={metric} stateDataOverride={filteredData} />
         </div>
 
         {/* Table */}
@@ -169,11 +194,12 @@ export default function Home() {
                     <th className="text-left py-2 pr-2">State</th>
                     <th className="text-right py-2 px-2">Google</th>
                     <th className="text-right py-2 px-2">Meta</th>
-                    <th className="text-right py-2 pl-2">Total</th>
+                    <th className="text-right py-2 px-2">Total</th>
+                    <th className="text-right py-2 pl-2">Reach</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {Object.values(stateData)
+                  {Object.values(filteredData)
                     .sort((a, b) => b.total - a.total)
                     .map((state) => (
                       <tr
@@ -189,8 +215,11 @@ export default function Home() {
                         <td className="py-2.5 px-2 text-right text-zinc-400 tabular-nums">
                           {formatNumber(state.meta)}
                         </td>
-                        <td className="py-2.5 pl-2 text-right font-semibold text-white tabular-nums">
+                        <td className="py-2.5 px-2 text-right font-semibold text-white tabular-nums">
                           {formatNumber(state.total)}
+                        </td>
+                        <td className="py-2.5 pl-2 text-right text-emerald-400 tabular-nums">
+                          {formatNumber(Math.round(state.total / 7.5))}
                         </td>
                       </tr>
                     ))}
@@ -204,8 +233,11 @@ export default function Home() {
                     <td className="py-2.5 px-2 text-right tabular-nums">
                       {formatNumber(platformTotals.meta)}
                     </td>
-                    <td className="py-2.5 pl-2 text-right tabular-nums">
+                    <td className="py-2.5 px-2 text-right tabular-nums">
                       {formatNumber(totalImpressions)}
+                    </td>
+                    <td className="py-2.5 pl-2 text-right text-emerald-400 tabular-nums">
+                      {formatNumber(totalReach)}
                     </td>
                   </tr>
                 </tfoot>
@@ -217,11 +249,12 @@ export default function Home() {
                     <th className="text-left py-2 pr-2">State</th>
                     <th className="text-right py-2 px-2">Google</th>
                     <th className="text-right py-2 px-2">Meta</th>
-                    <th className="text-right py-2 pl-2">Total</th>
+                    <th className="text-right py-2 px-2">Total</th>
+                    <th className="text-right py-2 pl-2">Reach</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {Object.values(stateData)
+                  {Object.values(filteredData)
                     .sort((a, b) => b.clicks.total - a.clicks.total)
                     .map((state) => (
                       <tr
@@ -237,8 +270,11 @@ export default function Home() {
                         <td className="py-2.5 px-2 text-right text-zinc-400 tabular-nums">
                           {formatNumber(state.clicks.meta)}
                         </td>
-                        <td className="py-2.5 pl-2 text-right font-semibold text-white tabular-nums">
+                        <td className="py-2.5 px-2 text-right font-semibold text-white tabular-nums">
                           {formatNumber(state.clicks.total)}
+                        </td>
+                        <td className="py-2.5 pl-2 text-right text-emerald-400 tabular-nums">
+                          {formatNumber(Math.round(state.total / 7.5))}
                         </td>
                       </tr>
                     ))}
@@ -252,8 +288,11 @@ export default function Home() {
                     <td className="py-2.5 px-2 text-right tabular-nums">
                       {formatNumber(platformTotals.clicksMeta)}
                     </td>
-                    <td className="py-2.5 pl-2 text-right tabular-nums">
+                    <td className="py-2.5 px-2 text-right tabular-nums">
                       {formatNumber(totalClicks)}
+                    </td>
+                    <td className="py-2.5 pl-2 text-right text-emerald-400 tabular-nums">
+                      {formatNumber(totalReach)}
                     </td>
                   </tr>
                 </tfoot>

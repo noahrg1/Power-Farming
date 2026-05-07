@@ -69,14 +69,16 @@ type HoverTarget =
 
 interface Props {
   metric: Metric;
+  stateDataOverride?: Record<string, StateData>;
 }
 
-export default function AustraliaHeatmap({ metric }: Props) {
+export default function AustraliaHeatmap({ metric, stateDataOverride }: Props) {
+  const activeStateData = stateDataOverride || stateData;
   const [hovered, setHovered] = useState<HoverTarget>(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
 
   const maxStateValue = Math.max(
-    ...Object.values(stateData).map((s) => getStateValue(s, metric))
+    ...Object.values(activeStateData).map((s) => getStateValue(s, metric))
   );
   const maxCityValue = Math.max(
     ...cityData.map((c) => getCityValue(c, metric))
@@ -123,7 +125,7 @@ export default function AustraliaHeatmap({ metric }: Props) {
   const geo = australiaGeo as FeatureCollection;
   const hoveredStateAbbr = hovered?.type === "state" ? hovered.abbr : null;
   const hoveredStateData: StateData | null = hoveredStateAbbr
-    ? stateData[hoveredStateAbbr]
+    ? activeStateData[hoveredStateAbbr]
     : null;
   const hoveredCity = hovered?.type === "city" ? hovered.data : null;
 
@@ -144,9 +146,9 @@ export default function AustraliaHeatmap({ metric }: Props) {
         {geo.features.map((feature) => {
           const name = feature.properties?.name as string;
           const abbr = nameToAbbr[name];
-          if (!abbr || !stateData[abbr]) return null;
+          if (!abbr || !activeStateData[abbr]) return null;
 
-          const data = stateData[abbr];
+          const data = activeStateData[abbr];
           const value = getStateValue(data, metric);
           const isHovered = hoveredStateAbbr === abbr;
           const d = pathGenerator(feature as Feature<Geometry>);
@@ -233,7 +235,7 @@ export default function AustraliaHeatmap({ metric }: Props) {
               opacity={0.9}
               style={{ textShadow: "0 1px 4px rgba(0,0,0,0.8)" }}
             >
-              {formatNumber(getStateValue(stateData.ACT, metric))}
+              {formatNumber(getStateValue(activeStateData.ACT, metric))}
             </text>
           </g>
         )}
