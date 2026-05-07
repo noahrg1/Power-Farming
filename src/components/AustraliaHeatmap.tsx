@@ -1,64 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo, useCallback } from "react";
+import { geoPath, geoMercator } from "d3-geo";
 import { stateData, type StateData } from "@/data/impressions";
+import australiaGeo from "@/data/australia.geojson";
+import type { Feature, FeatureCollection, Geometry } from "geojson";
 
-// Simplified but recognisable SVG paths for Australian states/territories
-// Coordinate system: viewBox 0 0 800 720
-const statePaths: Record<string, { d: string; labelX: number; labelY: number }> = {
-  WA: {
-    d: `M 40,95 L 295,95 L 295,130 L 330,130 L 330,370 L 295,370 L 295,580
-        L 250,620 L 200,640 L 155,630 L 120,600 L 85,540 L 55,460 L 40,380
-        L 32,300 L 30,220 L 35,150 Z`,
-    labelX: 165,
-    labelY: 370,
-  },
-  NT: {
-    d: `M 295,95 L 500,95 L 500,370 L 330,370 L 330,130 L 295,130 Z`,
-    labelX: 400,
-    labelY: 230,
-  },
-  SA: {
-    d: `M 330,370 L 500,370 L 500,440 L 560,440 L 560,570 L 510,600
-        L 460,615 L 420,610 L 380,590 L 340,560 L 295,580 Z`,
-    labelX: 430,
-    labelY: 490,
-  },
-  QLD: {
-    d: `M 500,95 L 700,95 L 720,140 L 730,200 L 720,260 L 700,310
-        L 680,360 L 660,400 L 640,440 L 560,440 L 500,440 L 500,370
-        L 500,95 Z`,
-    labelX: 600,
-    labelY: 270,
-  },
-  NSW: {
-    d: `M 500,440 L 560,440 L 640,440 L 660,460 L 680,490 L 690,520
-        L 695,540 L 680,560 L 650,575 L 620,585 L 580,590 L 560,570 Z`,
-    labelX: 620,
-    labelY: 510,
-  },
-  VIC: {
-    d: `M 460,615 L 510,600 L 560,570 L 580,590 L 620,585 L 650,575
-        L 640,600 L 620,620 L 580,635 L 540,640 L 500,635 L 470,625 Z`,
-    labelX: 555,
-    labelY: 610,
-  },
-  TAS: {
-    d: `M 570,670 L 610,660 L 640,670 L 650,695 L 640,720 L 610,730
-        L 580,725 L 565,705 L 565,685 Z`,
-    labelX: 607,
-    labelY: 698,
-  },
-  ACT: {
-    d: `M 630,535 L 650,530 L 658,545 L 650,558 L 632,555 Z`,
-    labelX: 643,
-    labelY: 545,
-  },
+// Name → abbreviation lookup
+const nameToAbbr: Record<string, string> = {
+  "New South Wales": "NSW",
+  Victoria: "VIC",
+  Queensland: "QLD",
+  "South Australia": "SA",
+  "Western Australia": "WA",
+  Tasmania: "TAS",
+  "Northern Territory": "NT",
+  "Australian Capital Territory": "ACT",
 };
 
 function getColor(total: number, maxTotal: number): string {
   const ratio = total / maxTotal;
-  // Green gradient: darker = more impressions
   if (ratio > 0.8) return "#15803d";
   if (ratio > 0.6) return "#16a34a";
   if (ratio > 0.4) return "#22c55e";
@@ -77,32 +38,72 @@ function formatNumberFull(n: number): string {
   return n.toLocaleString("en-AU");
 }
 
+const WIDTH = 800;
+const HEIGHT = 750;
+
 export default function AustraliaHeatmap() {
   const [hoveredState, setHoveredState] = useState<string | null>(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
 
   const maxTotal = Math.max(...Object.values(stateData).map((s) => s.total));
+
   const hoveredData: StateData | null = hoveredState
     ? stateData[hoveredState]
     : null;
 
+  // Set up D3 projection fitted to Australia
+  const { pathGenerator, centroids } = useMemo(() => {
+    const geo = australiaGeo as FeatureCollection;
+
+    const projection = geoMercator().fitSize([WIDTH, HEIGHT - 60], geo);
+    const pathGen = geoPath().projection(projection);
+
+    // Compute label positions (centroids)
+    const cents: Record<string, [number, number]> = {};
+    for (const feature of geo.features) {
+      const abbr = nameToAbbr[feature.properties?.name] || "";
+      const centroid = pathGen.centroid(feature as Feature<Geometry>);
+      if (abbr && centroid && isFinite(centroid[0])) {
+        cents[abbr] = centroid;
+      }
+    }
+
+    return { pathGenerator: pathGen, centroids: cents };
+  }, []);
+
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent<SVGSVGElement>) => {
+      const rect = e.currentTarget.getBoundingClientRect();
+      setTooltipPos({
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+      });
+    },
+    []
+  );
+
+  const geo = australiaGeo as FeatureCollection;
+
   return (
     <div className="relative">
       <svg
-        viewBox="0 0 800 750"
+        viewBox={`0 0 ${WIDTH} ${HEIGHT}`}
         className="w-full h-auto"
-        onMouseMove={(e) => {
-          const rect = e.currentTarget.getBoundingClientRect();
-          setTooltipPos({
-            x: e.clientX - rect.left,
-            y: e.clientY - rect.top,
-          });
-        }}
+        onMouseMove={handleMouseMove}
       >
-        {/* State shapes */}
-        {Object.entries(statePaths).map(([abbr, { d, labelX, labelY }]) => {
+        {/* State shapes from real GeoJSON */}
+        {geo.features.map((feature) => {
+          const name = feature.properties?.name as string;
+          const abbr = nameToAbbr[name];
+          if (!abbr || !stateData[abbr]) return null;
+
           const data = stateData[abbr];
           const isHovered = hoveredState === abbr;
+          const d = pathGenerator(feature as Feature<Geometry>);
+          if (!d) return null;
+
+          const centroid = centroids[abbr];
+
           return (
             <g
               key={abbr}
@@ -114,60 +115,102 @@ export default function AustraliaHeatmap() {
                 d={d}
                 fill={getColor(data.total, maxTotal)}
                 stroke={isHovered ? "#ffffff" : "#0a0a0f"}
-                strokeWidth={isHovered ? 2.5 : 1.5}
+                strokeWidth={isHovered ? 2 : 1}
                 className="transition-all duration-150"
-                opacity={
-                  hoveredState === null || isHovered ? 1 : 0.5
-                }
+                opacity={hoveredState === null || isHovered ? 1 : 0.5}
               />
-              <text
-                x={labelX}
-                y={labelY}
-                textAnchor="middle"
-                dominantBaseline="middle"
-                fill="#fff"
-                fontSize={abbr === "ACT" ? 10 : 16}
-                fontWeight="600"
-                pointerEvents="none"
-                style={{ textShadow: "0 1px 3px rgba(0,0,0,0.7)" }}
-              >
-                {abbr}
-              </text>
-              <text
-                x={labelX}
-                y={labelY + (abbr === "ACT" ? 12 : 20)}
-                textAnchor="middle"
-                dominantBaseline="middle"
-                fill="#e4e4e7"
-                fontSize={abbr === "ACT" ? 8 : 12}
-                pointerEvents="none"
-                opacity={0.85}
-                style={{ textShadow: "0 1px 3px rgba(0,0,0,0.7)" }}
-              >
-                {formatNumber(data.total)}
-              </text>
+              {centroid && abbr !== "ACT" && (
+                <>
+                  <text
+                    x={centroid[0]}
+                    y={centroid[1] - 8}
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    fill="#fff"
+                    fontSize={14}
+                    fontWeight="600"
+                    pointerEvents="none"
+                    style={{ textShadow: "0 1px 4px rgba(0,0,0,0.8)" }}
+                  >
+                    {abbr}
+                  </text>
+                  <text
+                    x={centroid[0]}
+                    y={centroid[1] + 10}
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    fill="#e4e4e7"
+                    fontSize={11}
+                    pointerEvents="none"
+                    opacity={0.9}
+                    style={{ textShadow: "0 1px 4px rgba(0,0,0,0.8)" }}
+                  >
+                    {formatNumber(data.total)}
+                  </text>
+                </>
+              )}
             </g>
           );
         })}
 
+        {/* ACT label with leader line (too small for in-state label) */}
+        {centroids.ACT && (
+          <g pointerEvents="none">
+            <line
+              x1={centroids.ACT[0]}
+              y1={centroids.ACT[1]}
+              x2={centroids.ACT[0] + 60}
+              y2={centroids.ACT[1] - 40}
+              stroke="#a1a1aa"
+              strokeWidth={1}
+              strokeDasharray="3,2"
+            />
+            <text
+              x={centroids.ACT[0] + 64}
+              y={centroids.ACT[1] - 48}
+              fill="#fff"
+              fontSize={11}
+              fontWeight="600"
+              style={{ textShadow: "0 1px 4px rgba(0,0,0,0.8)" }}
+            >
+              ACT
+            </text>
+            <text
+              x={centroids.ACT[0] + 64}
+              y={centroids.ACT[1] - 34}
+              fill="#e4e4e7"
+              fontSize={10}
+              opacity={0.9}
+              style={{ textShadow: "0 1px 4px rgba(0,0,0,0.8)" }}
+            >
+              {formatNumber(stateData.ACT.total)}
+            </text>
+          </g>
+        )}
+
         {/* Legend */}
-        <g transform="translate(30, 660)">
+        <g transform={`translate(30, ${HEIGHT - 40})`}>
           <text x="0" y="0" fill="#a1a1aa" fontSize="11">
             Fewer impressions
           </text>
-          {["#bbf7d0", "#86efac", "#4ade80", "#22c55e", "#16a34a", "#15803d"].map(
-            (color, i) => (
-              <rect
-                key={color}
-                x={i * 30}
-                y={8}
-                width={28}
-                height={12}
-                fill={color}
-                rx={2}
-              />
-            )
-          )}
+          {[
+            "#bbf7d0",
+            "#86efac",
+            "#4ade80",
+            "#22c55e",
+            "#16a34a",
+            "#15803d",
+          ].map((color, i) => (
+            <rect
+              key={color}
+              x={i * 30}
+              y={8}
+              width={28}
+              height={12}
+              fill={color}
+              rx={2}
+            />
+          ))}
           <text x="190" y="0" fill="#a1a1aa" fontSize="11">
             More impressions
           </text>
