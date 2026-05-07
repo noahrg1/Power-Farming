@@ -305,7 +305,7 @@ export default function AustraliaHeatmap({ metric }: Props) {
             fontSize="11"
             dominantBaseline="middle"
           >
-            City dots: sized by city {metricLabel} (Google Ads + DV360)
+            City dots: sized by city {metricLabel} (Google)
           </text>
         </g>
       </svg>
@@ -333,19 +333,10 @@ export default function AustraliaHeatmap({ metric }: Props) {
               <div className="flex justify-between text-xs">
                 <span className="flex items-center gap-1.5">
                   <span className="w-2 h-2 rounded-full bg-blue-400 inline-block" />
-                  Google Ads
+                  Google
                 </span>
                 <span className="text-zinc-300 font-medium">
-                  {formatNumberFull(hoveredStateData.googleAds)}
-                </span>
-              </div>
-              <div className="flex justify-between text-xs">
-                <span className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-purple-400 inline-block" />
-                  DV360
-                </span>
-                <span className="text-zinc-300 font-medium">
-                  {formatNumberFull(hoveredStateData.dv360)}
+                  {formatNumberFull(hoveredStateData.google)}
                 </span>
               </div>
               <div className="flex justify-between text-xs">
@@ -363,19 +354,10 @@ export default function AustraliaHeatmap({ metric }: Props) {
               <div className="flex justify-between text-xs">
                 <span className="flex items-center gap-1.5">
                   <span className="w-2 h-2 rounded-full bg-blue-400 inline-block" />
-                  Google Ads
+                  Google
                 </span>
                 <span className="text-zinc-300 font-medium">
-                  {formatNumberFull(hoveredStateData.clicks.googleAds)}
-                </span>
-              </div>
-              <div className="flex justify-between text-xs">
-                <span className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-purple-400 inline-block" />
-                  DV360
-                </span>
-                <span className="text-zinc-300 font-medium">
-                  {formatNumberFull(hoveredStateData.clicks.dv360)}
+                  {formatNumberFull(hoveredStateData.clicks.google)}
                 </span>
               </div>
               <div className="flex justify-between text-xs">
@@ -412,49 +394,19 @@ export default function AustraliaHeatmap({ metric }: Props) {
               ? `Total: ${formatNumberFull(hoveredCity.total)} impressions`
               : `Total: ${formatNumberFull(hoveredCity.totalClicks)} clicks`}
           </div>
-          {metric === "impressions" ? (
-            <div className="space-y-1.5">
-              <div className="flex justify-between text-xs">
-                <span className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-blue-400 inline-block" />
-                  Google Ads
-                </span>
-                <span className="text-zinc-300 font-medium">
-                  {formatNumberFull(hoveredCity.googleAds)}
-                </span>
-              </div>
-              <div className="flex justify-between text-xs">
-                <span className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-purple-400 inline-block" />
-                  DV360
-                </span>
-                <span className="text-zinc-300 font-medium">
-                  {formatNumberFull(hoveredCity.dv360)}
-                </span>
-              </div>
+          <div className="space-y-1.5">
+            <div className="flex justify-between text-xs">
+              <span className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-blue-400 inline-block" />
+                Google
+              </span>
+              <span className="text-zinc-300 font-medium">
+                {metric === "impressions"
+                  ? formatNumberFull(hoveredCity.google)
+                  : formatNumberFull(hoveredCity.googleClicks)}
+              </span>
             </div>
-          ) : (
-            <div className="space-y-1.5">
-              <div className="flex justify-between text-xs">
-                <span className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-blue-400 inline-block" />
-                  Google Ads
-                </span>
-                <span className="text-zinc-300 font-medium">
-                  {formatNumberFull(hoveredCity.googleAdsClicks)}
-                </span>
-              </div>
-              <div className="flex justify-between text-xs">
-                <span className="flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-purple-400 inline-block" />
-                  DV360
-                </span>
-                <span className="text-zinc-300 font-medium">
-                  {formatNumberFull(hoveredCity.dv360Clicks)}
-                </span>
-              </div>
-            </div>
-          )}
+          </div>
         </div>
       )}
     </div>

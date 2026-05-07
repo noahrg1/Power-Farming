@@ -3,11 +3,9 @@ export interface CityData {
   state: string;
   lat: number;
   lng: number;
-  googleAds: number;
-  dv360: number;
+  google: number;
   total: number;
-  googleAdsClicks: number;
-  dv360Clicks: number;
+  googleClicks: number;
   totalClicks: number;
 }
 
@@ -17,11 +15,9 @@ export const cityData: CityData[] = [
     "state": "New South Wales",
     "lat": -33.87,
     "lng": 151.21,
-    "googleAds": 620005,
-    "dv360": 125673,
+    "google": 745678,
     "total": 745678,
-    "googleAdsClicks": 7752,
-    "dv360Clicks": 318,
+    "googleClicks": 8070,
     "totalClicks": 8070
   },
   {
@@ -29,11 +25,9 @@ export const cityData: CityData[] = [
     "state": "Queensland",
     "lat": -27.47,
     "lng": 153.03,
-    "googleAds": 627673,
-    "dv360": 44017,
+    "google": 671690,
     "total": 671690,
-    "googleAdsClicks": 7002,
-    "dv360Clicks": 121,
+    "googleClicks": 7123,
     "totalClicks": 7123
   },
   {
@@ -41,11 +35,9 @@ export const cityData: CityData[] = [
     "state": "Victoria",
     "lat": -37.81,
     "lng": 144.96,
-    "googleAds": 349340,
-    "dv360": 79273,
+    "google": 428613,
     "total": 428613,
-    "googleAdsClicks": 4901,
-    "dv360Clicks": 252,
+    "googleClicks": 5153,
     "totalClicks": 5153
   },
   {
@@ -53,11 +45,9 @@ export const cityData: CityData[] = [
     "state": "South Australia",
     "lat": -34.93,
     "lng": 138.6,
-    "googleAds": 273811,
-    "dv360": 17344,
+    "google": 291155,
     "total": 291155,
-    "googleAdsClicks": 3234,
-    "dv360Clicks": 59,
+    "googleClicks": 3293,
     "totalClicks": 3293
   },
   {
@@ -65,11 +55,9 @@ export const cityData: CityData[] = [
     "state": "Western Australia",
     "lat": -31.95,
     "lng": 115.86,
-    "googleAds": 165879,
-    "dv360": 30830,
+    "google": 196709,
     "total": 196709,
-    "googleAdsClicks": 2202,
-    "dv360Clicks": 103,
+    "googleClicks": 2305,
     "totalClicks": 2305
   },
   {
@@ -77,11 +65,9 @@ export const cityData: CityData[] = [
     "state": "Victoria",
     "lat": -37.77,
     "lng": 144.74,
-    "googleAds": 78308,
-    "dv360": 0,
+    "google": 78308,
     "total": 78308,
-    "googleAdsClicks": 1112,
-    "dv360Clicks": 0,
+    "googleClicks": 1112,
     "totalClicks": 1112
   },
   {
@@ -89,11 +75,9 @@ export const cityData: CityData[] = [
     "state": "Victoria",
     "lat": -37.88,
     "lng": 144.6,
-    "googleAds": 57278,
-    "dv360": 0,
+    "google": 57278,
     "total": 57278,
-    "googleAdsClicks": 632,
-    "dv360Clicks": 0,
+    "googleClicks": 632,
     "totalClicks": 632
   },
   {
@@ -101,11 +85,9 @@ export const cityData: CityData[] = [
     "state": "Victoria",
     "lat": -37.53,
     "lng": 145.17,
-    "googleAds": 42373,
-    "dv360": 5,
+    "google": 42378,
     "total": 42378,
-    "googleAdsClicks": 653,
-    "dv360Clicks": 0,
+    "googleClicks": 653,
     "totalClicks": 653
   },
   {
@@ -113,11 +95,9 @@ export const cityData: CityData[] = [
     "state": "New South Wales",
     "lat": -33.93,
     "lng": 150.93,
-    "googleAds": 41293,
-    "dv360": 0,
+    "google": 41293,
     "total": 41293,
-    "googleAdsClicks": 533,
-    "dv360Clicks": 0,
+    "googleClicks": 533,
     "totalClicks": 533
   },
   {
@@ -125,11 +105,9 @@ export const cityData: CityData[] = [
     "state": "Victoria",
     "lat": -38.13,
     "lng": 145.3,
-    "googleAds": 38468,
-    "dv360": 0,
+    "google": 38468,
     "total": 38468,
-    "googleAdsClicks": 536,
-    "dv360Clicks": 0,
+    "googleClicks": 536,
     "totalClicks": 536
   },
   {
@@ -137,11 +115,9 @@ export const cityData: CityData[] = [
     "state": "Western Australia",
     "lat": -32.19,
     "lng": 116.01,
-    "googleAds": 35475,
-    "dv360": 0,
+    "google": 35475,
     "total": 35475,
-    "googleAdsClicks": 445,
-    "dv360Clicks": 0,
+    "googleClicks": 445,
     "totalClicks": 445
   },
   {
@@ -149,11 +125,9 @@ export const cityData: CityData[] = [
     "state": "New South Wales",
     "lat": -34.2,
     "lng": 150.79,
-    "googleAds": 33354,
-    "dv360": 0,
+    "google": 33354,
     "total": 33354,
-    "googleAdsClicks": 444,
-    "dv360Clicks": 0,
+    "googleClicks": 444,
     "totalClicks": 444
   },
   {
@@ -161,11 +135,9 @@ export const cityData: CityData[] = [
     "state": "Toowoomba Regional",
     "lat": -27.57,
     "lng": 151.9,
-    "googleAds": 30937,
-    "dv360": 0,
+    "google": 30937,
     "total": 30937,
-    "googleAdsClicks": 464,
-    "dv360Clicks": 0,
+    "googleClicks": 464,
     "totalClicks": 464
   },
   {
@@ -173,11 +145,9 @@ export const cityData: CityData[] = [
     "state": "City of Moreton Bay",
     "lat": -27.1,
     "lng": 152.89,
-    "googleAds": 29634,
-    "dv360": 0,
+    "google": 29634,
     "total": 29634,
-    "googleAdsClicks": 351,
-    "dv360Clicks": 0,
+    "googleClicks": 351,
     "totalClicks": 351
   },
   {
@@ -185,11 +155,9 @@ export const cityData: CityData[] = [
     "state": "Western Australia",
     "lat": -32.47,
     "lng": 115.75,
-    "googleAds": 29375,
-    "dv360": 0,
+    "google": 29375,
     "total": 29375,
-    "googleAdsClicks": 324,
-    "dv360Clicks": 0,
+    "googleClicks": 324,
     "totalClicks": 324
   },
   {
@@ -197,11 +165,9 @@ export const cityData: CityData[] = [
     "state": "Western Australia",
     "lat": -32.13,
     "lng": 115.81,
-    "googleAds": 29319,
-    "dv360": 0,
+    "google": 29319,
     "total": 29319,
-    "googleAdsClicks": 352,
-    "dv360Clicks": 0,
+    "googleClicks": 352,
     "totalClicks": 352
   },
   {
@@ -209,11 +175,9 @@ export const cityData: CityData[] = [
     "state": "Queensland",
     "lat": -27.56,
     "lng": 152.78,
-    "googleAds": 28937,
-    "dv360": 0,
+    "google": 28937,
     "total": 28937,
-    "googleAdsClicks": 370,
-    "dv360Clicks": 0,
+    "googleClicks": 370,
     "totalClicks": 370
   },
   {
@@ -221,11 +185,9 @@ export const cityData: CityData[] = [
     "state": "Queensland",
     "lat": -27.62,
     "lng": 152.95,
-    "googleAds": 28431,
-    "dv360": 0,
+    "google": 28431,
     "total": 28431,
-    "googleAdsClicks": 313,
-    "dv360Clicks": 0,
+    "googleClicks": 313,
     "totalClicks": 313
   },
   {
@@ -233,11 +195,9 @@ export const cityData: CityData[] = [
     "state": "New South Wales",
     "lat": -33.65,
     "lng": 150.85,
-    "googleAds": 27732,
-    "dv360": 631,
+    "google": 28363,
     "total": 28363,
-    "googleAdsClicks": 386,
-    "dv360Clicks": 0,
+    "googleClicks": 386,
     "totalClicks": 386
   },
   {
@@ -245,11 +205,9 @@ export const cityData: CityData[] = [
     "state": "New South Wales",
     "lat": -33.82,
     "lng": 150.93,
-    "googleAds": 28277,
-    "dv360": 0,
+    "google": 28277,
     "total": 28277,
-    "googleAdsClicks": 345,
-    "dv360Clicks": 0,
+    "googleClicks": 345,
     "totalClicks": 345
   },
   {
@@ -257,11 +215,9 @@ export const cityData: CityData[] = [
     "state": "Western Australia",
     "lat": -31.81,
     "lng": 115.83,
-    "googleAds": 27204,
-    "dv360": 0,
+    "google": 27204,
     "total": 27204,
-    "googleAdsClicks": 323,
-    "dv360Clicks": 0,
+    "googleClicks": 323,
     "totalClicks": 323
   },
   {
@@ -269,11 +225,9 @@ export const cityData: CityData[] = [
     "state": "Townsville City",
     "lat": -19.3,
     "lng": 146.77,
-    "googleAds": 26094,
-    "dv360": 0,
+    "google": 26094,
     "total": 26094,
-    "googleAdsClicks": 259,
-    "dv360Clicks": 0,
+    "googleClicks": 259,
     "totalClicks": 259
   },
   {
@@ -281,11 +235,9 @@ export const cityData: CityData[] = [
     "state": "Queensland",
     "lat": -27.75,
     "lng": 153.17,
-    "googleAds": 25918,
-    "dv360": 0,
+    "google": 25918,
     "total": 25918,
-    "googleAdsClicks": 340,
-    "dv360Clicks": 0,
+    "googleClicks": 340,
     "totalClicks": 340
   },
   {
@@ -293,11 +245,9 @@ export const cityData: CityData[] = [
     "state": "New South Wales",
     "lat": -34.1,
     "lng": 150.66,
-    "googleAds": 25293,
-    "dv360": 0,
+    "google": 25293,
     "total": 25293,
-    "googleAdsClicks": 288,
-    "dv360Clicks": 0,
+    "googleClicks": 288,
     "totalClicks": 288
   },
   {
@@ -305,11 +255,9 @@ export const cityData: CityData[] = [
     "state": "New South Wales",
     "lat": -33.92,
     "lng": 151.06,
-    "googleAds": 24128,
-    "dv360": 0,
+    "google": 24128,
     "total": 24128,
-    "googleAdsClicks": 272,
-    "dv360Clicks": 0,
+    "googleClicks": 272,
     "totalClicks": 272
   },
   {
@@ -317,11 +265,9 @@ export const cityData: CityData[] = [
     "state": "City of Moreton Bay",
     "lat": -27.26,
     "lng": 152.96,
-    "googleAds": 23448,
-    "dv360": 0,
+    "google": 23448,
     "total": 23448,
-    "googleAdsClicks": 237,
-    "dv360Clicks": 0,
+    "googleClicks": 237,
     "totalClicks": 237
   },
   {
@@ -329,11 +275,9 @@ export const cityData: CityData[] = [
     "state": "New South Wales",
     "lat": -33.68,
     "lng": 150.91,
-    "googleAds": 23110,
-    "dv360": 0,
+    "google": 23110,
     "total": 23110,
-    "googleAdsClicks": 248,
-    "dv360Clicks": 0,
+    "googleClicks": 248,
     "totalClicks": 248
   },
   {
@@ -341,11 +285,9 @@ export const cityData: CityData[] = [
     "state": "Queensland",
     "lat": -27.6,
     "lng": 152.76,
-    "googleAds": 22482,
-    "dv360": 0,
+    "google": 22482,
     "total": 22482,
-    "googleAdsClicks": 237,
-    "dv360Clicks": 0,
+    "googleClicks": 237,
     "totalClicks": 237
   },
   {
@@ -353,11 +295,9 @@ export const cityData: CityData[] = [
     "state": "Victoria",
     "lat": -38.08,
     "lng": 145.42,
-    "googleAds": 22231,
-    "dv360": 0,
+    "google": 22231,
     "total": 22231,
-    "googleAdsClicks": 263,
-    "dv360Clicks": 0,
+    "googleClicks": 263,
     "totalClicks": 263
   },
   {
@@ -365,11 +305,9 @@ export const cityData: CityData[] = [
     "state": "Western Australia",
     "lat": -32.05,
     "lng": 115.87,
-    "googleAds": 22014,
-    "dv360": 0,
+    "google": 22014,
     "total": 22014,
-    "googleAdsClicks": 227,
-    "dv360Clicks": 0,
+    "googleClicks": 227,
     "totalClicks": 227
   },
   {
@@ -377,11 +315,9 @@ export const cityData: CityData[] = [
     "state": "Western Australia",
     "lat": -32.02,
     "lng": 115.96,
-    "googleAds": 21344,
-    "dv360": 0,
+    "google": 21344,
     "total": 21344,
-    "googleAdsClicks": 257,
-    "dv360Clicks": 0,
+    "googleClicks": 257,
     "totalClicks": 257
   },
   {
@@ -389,11 +325,9 @@ export const cityData: CityData[] = [
     "state": "New South Wales",
     "lat": -33.76,
     "lng": 150.99,
-    "googleAds": 20989,
-    "dv360": 0,
+    "google": 20989,
     "total": 20989,
-    "googleAdsClicks": 182,
-    "dv360Clicks": 0,
+    "googleClicks": 182,
     "totalClicks": 182
   },
   {
@@ -401,11 +335,9 @@ export const cityData: CityData[] = [
     "state": "Western Australia",
     "lat": -32.1,
     "lng": 115.78,
-    "googleAds": 20780,
-    "dv360": 0,
+    "google": 20780,
     "total": 20780,
-    "googleAdsClicks": 259,
-    "dv360Clicks": 0,
+    "googleClicks": 259,
     "totalClicks": 259
   },
   {
@@ -413,11 +345,9 @@ export const cityData: CityData[] = [
     "state": "Victoria",
     "lat": -37.88,
     "lng": 145.16,
-    "googleAds": 20636,
-    "dv360": 0,
+    "google": 20636,
     "total": 20636,
-    "googleAdsClicks": 164,
-    "dv360Clicks": 0,
+    "googleClicks": 164,
     "totalClicks": 164
   },
   {
@@ -425,11 +355,9 @@ export const cityData: CityData[] = [
     "state": "Australian Capital Territory",
     "lat": -35.28,
     "lng": 149.13,
-    "googleAds": 20535,
-    "dv360": 0,
+    "google": 20535,
     "total": 20535,
-    "googleAdsClicks": 217,
-    "dv360Clicks": 0,
+    "googleClicks": 217,
     "totalClicks": 217
   },
   {
@@ -437,11 +365,9 @@ export const cityData: CityData[] = [
     "state": "South Australia",
     "lat": -34.73,
     "lng": 138.75,
-    "googleAds": 20468,
-    "dv360": 0,
+    "google": 20468,
     "total": 20468,
-    "googleAdsClicks": 255,
-    "dv360Clicks": 0,
+    "googleClicks": 255,
     "totalClicks": 255
   },
   {
@@ -449,11 +375,9 @@ export const cityData: CityData[] = [
     "state": "Western Australia",
     "lat": -31.87,
     "lng": 115.84,
-    "googleAds": 20328,
-    "dv360": 0,
+    "google": 20328,
     "total": 20328,
-    "googleAdsClicks": 283,
-    "dv360Clicks": 0,
+    "googleClicks": 283,
     "totalClicks": 283
   },
   {
@@ -461,11 +385,9 @@ export const cityData: CityData[] = [
     "state": "New South Wales",
     "lat": -33.87,
     "lng": 151.1,
-    "googleAds": 20328,
-    "dv360": 0,
+    "google": 20328,
     "total": 20328,
-    "googleAdsClicks": 193,
-    "dv360Clicks": 0,
+    "googleClicks": 193,
     "totalClicks": 193
   },
   {
@@ -473,11 +395,9 @@ export const cityData: CityData[] = [
     "state": "Victoria",
     "lat": -38.05,
     "lng": 145.3,
-    "googleAds": 20199,
-    "dv360": 0,
+    "google": 20199,
     "total": 20199,
-    "googleAdsClicks": 215,
-    "dv360Clicks": 0,
+    "googleClicks": 215,
     "totalClicks": 215
   },
   {
@@ -485,11 +405,9 @@ export const cityData: CityData[] = [
     "state": "Victoria",
     "lat": -37.99,
     "lng": 145.21,
-    "googleAds": 20037,
-    "dv360": 0,
+    "google": 20037,
     "total": 20037,
-    "googleAdsClicks": 343,
-    "dv360Clicks": 0,
+    "googleClicks": 343,
     "totalClicks": 343
   },
   {
@@ -497,11 +415,9 @@ export const cityData: CityData[] = [
     "state": "New South Wales",
     "lat": -33.77,
     "lng": 150.91,
-    "googleAds": 19983,
-    "dv360": 0,
+    "google": 19983,
     "total": 19983,
-    "googleAdsClicks": 262,
-    "dv360Clicks": 0,
+    "googleClicks": 262,
     "totalClicks": 262
   },
   {
@@ -509,11 +425,9 @@ export const cityData: CityData[] = [
     "state": "Victoria",
     "lat": -38.38,
     "lng": 145.07,
-    "googleAds": 19784,
-    "dv360": 30,
+    "google": 19814,
     "total": 19814,
-    "googleAdsClicks": 191,
-    "dv360Clicks": 1,
+    "googleClicks": 192,
     "totalClicks": 192
   },
   {
@@ -521,11 +435,9 @@ export const cityData: CityData[] = [
     "state": "Townsville City",
     "lat": -19.26,
     "lng": 146.8,
-    "googleAds": 18327,
-    "dv360": 1478,
+    "google": 19805,
     "total": 19805,
-    "googleAdsClicks": 184,
-    "dv360Clicks": 7,
+    "googleClicks": 191,
     "totalClicks": 191
   },
   {
@@ -533,11 +445,9 @@ export const cityData: CityData[] = [
     "state": "Queensland",
     "lat": -27.36,
     "lng": 153.04,
-    "googleAds": 19547,
-    "dv360": 0,
+    "google": 19547,
     "total": 19547,
-    "googleAdsClicks": 165,
-    "dv360Clicks": 0,
+    "googleClicks": 165,
     "totalClicks": 165
   },
   {
@@ -545,11 +455,9 @@ export const cityData: CityData[] = [
     "state": "New South Wales",
     "lat": -33.77,
     "lng": 150.82,
-    "googleAds": 19520,
-    "dv360": 0,
+    "google": 19520,
     "total": 19520,
-    "googleAdsClicks": 266,
-    "dv360Clicks": 0,
+    "googleClicks": 266,
     "totalClicks": 266
   },
   {
@@ -557,11 +465,9 @@ export const cityData: CityData[] = [
     "state": "New South Wales",
     "lat": -33.74,
     "lng": 150.78,
-    "googleAds": 19271,
-    "dv360": 0,
+    "google": 19271,
     "total": 19271,
-    "googleAdsClicks": 209,
-    "dv360Clicks": 0,
+    "googleClicks": 209,
     "totalClicks": 209
   },
   {
@@ -569,11 +475,9 @@ export const cityData: CityData[] = [
     "state": "New South Wales",
     "lat": -33.88,
     "lng": 151.14,
-    "googleAds": 19182,
-    "dv360": 0,
+    "google": 19182,
     "total": 19182,
-    "googleAdsClicks": 185,
-    "dv360Clicks": 0,
+    "googleClicks": 185,
     "totalClicks": 185
   },
   {
@@ -581,11 +485,9 @@ export const cityData: CityData[] = [
     "state": "Victoria",
     "lat": -37.74,
     "lng": 144.74,
-    "googleAds": 18685,
-    "dv360": 0,
+    "google": 18685,
     "total": 18685,
-    "googleAdsClicks": 222,
-    "dv360Clicks": 0,
+    "googleClicks": 222,
     "totalClicks": 222
   }
 ];
